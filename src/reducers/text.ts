@@ -27,7 +27,7 @@ export const newCode = (): ITextData => {
     author: undefined,
     context: undefined,
     mode: Mode.code,
-    text: '', // TODO
+    text: 'hello', // TODO
   }
 }
 

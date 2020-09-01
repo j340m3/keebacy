@@ -13,6 +13,7 @@ interface IStatsState {
   timer: any
   hundredths: number
   chars: number
+  finished: boolean
 }
 
 class StatsBar extends React.Component<IStatsProps, IStatsState> {
@@ -20,6 +21,7 @@ class StatsBar extends React.Component<IStatsProps, IStatsState> {
     chars: this.props.chars,
     hundredths: 0,
     timer: null,
+    finished: false,
   }
 
   private startTimer = () => {
@@ -51,12 +53,14 @@ class StatsBar extends React.Component<IStatsProps, IStatsState> {
       this.startTimer()
       this.setState({
         chars,
+        finished: false,
       })
     } else if (prevProps.chars !== 0 && chars === 0) {
       // if we finished a text
       this.stopTimer()
       this.setState({
         chars: prevProps.chars,
+        finished: true,
       })
     } else {
       // if we are in the middle of a text
@@ -67,17 +71,23 @@ class StatsBar extends React.Component<IStatsProps, IStatsState> {
   }
 
   public render() {
-    const { chars, hundredths } = this.state
+    const { chars, hundredths, finished } = this.state
     const { errorPercent } = this.props
     const sec = hundredths / 100
     const wpm = sec === 0 ? 0 : chars / 5 / (sec / 60)
-    const cps = sec === 0 ? 0 : chars / sec
+    let wpmspan
+    let accuarcy
+    if (finished) {
+        wpmspan = <span>{wpm.toFixed(0)} wpm</span>
+        accuarcy = <span> {(100 - errorPercent).toFixed(1).replace(/[.,]0$/, "")}% accuarcy</span>
+    } else {
+        wpmspan = <span>&nbsp;</span>
+        accuarcy = <span>&nbsp;</span>
+    }
     return (
       <div>
-        <span>{wpm.toFixed(0).padStart(3, '0')} wpm</span>
-        <span> {cps.toFixed(1).padStart(4, '0')} cps</span>
-        <span> {(100 - errorPercent).toFixed(2).padStart(6, '0')}% acc</span>
-        <span> {sec.toFixed(1)}s</span>
+        {wpmspan}
+        {accuarcy}
       </div>
     )
   }

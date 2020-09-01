@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import Buttons from '../components/Buttons'
 import Stats from '../components/StatsBar'
 import Typing from '../components/Typing'
-import { GITHUB_URL } from '../constants'
 import { IStoreState } from '../store'
 import TextInfo from './TextInfo'
 
@@ -21,9 +20,6 @@ class App extends React.Component<IAppProps> {
     const { author, keydown } = this.props
     return (
       <div>
-        <h3>
-          <a href={GITHUB_URL}>wpm-spa</a>
-        </h3>
         <Buttons />
         <br />
         <Stats />

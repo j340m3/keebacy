@@ -13,7 +13,7 @@ import { IStoreState } from '../store'
 const TYPED_COLOR = '#A0A0A0'
 const CURSOR_COLOR = '#BEBEBE'
 const ERROR_COLOR = 'red'
-const FONT = '"Courier New", Courier, monospace'
+const FONT = '"Ubuntu Mono", Courier, monospace'
 
 interface ITypingProps {
   text: string
@@ -61,6 +61,10 @@ class Typing extends React.Component<ITypingProps, ITypingState> {
           errorPosition = undefined
           errorSum = 0
         }
+        if (cursorPosition === 1) {
+          changeErrorPercent(0)
+        }
+
         // make sure the cursor doesn't go more than 1 past the length if we finish a session with outstanding errors
         if (cursorPosition > text.length) {
           cursorPosition -= 1
@@ -139,7 +143,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     newText: () => {
       dispatch(newText())
       dispatch(changeCharsTyped(0))
-      dispatch(changeErrorPercent(0))
     },
   }
 }
