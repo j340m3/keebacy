@@ -12,8 +12,15 @@ import quotes from '../static/quotes.json'
 import { ITextData } from '../store'
 
 export const newQuote = (): ITextData => {
-  const { author, context, text } = _.sample(quotes)!
-  console.log(text)
+
+  let quote =_.sample(quotes)!
+  while (quote.text.length > 100) {
+    quote = _.sample(quotes)!
+  }
+
+  const { author, context, text } = quote
+
+  console.log(text.length)
   return {
     author,
     context,
