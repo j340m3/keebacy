@@ -141,6 +141,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       dispatch(changeErrorPercent(percent))
     },
     newText: () => {
+      // @ts-ignore
       dispatch(newText())
       dispatch(changeCharsTyped(0))
     },

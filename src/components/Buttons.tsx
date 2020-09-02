@@ -100,6 +100,7 @@ class Buttons extends React.Component<IButtonProps, IButtonState> {
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     newText: (mode?: string, words?: string[]) => {
+      // @ts-ignore
       dispatch(newText(mode, words))
     },
   }

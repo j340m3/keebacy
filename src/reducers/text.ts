@@ -88,14 +88,25 @@ export const newRepeated = (words?: string[]): ITextData => {
 
 export default (state: ITextData = newQuote(), action: Action): ITextData => {
   switch (action.type) {
+      // @ts-ignore
     case ActionName.newText:
       const mode =
+               // @ts-ignore
         action.payload.mode === undefined ? state.mode : action.payload.mode
       switch (mode) {
         case Mode.quote:
+          console.log("mode quote")
           return newQuote()
         case Mode.code:
-          return newCode()
+               // @ts-ignore
+          console.log("mode code")
+          return {
+              author: undefined,
+              context: undefined,
+              mode: Mode.repeatedWords,
+               // @ts-ignore
+              text: action.payload.words ? action.payload.words[0] : ""
+            }
         case Mode.random:
           return newRandom()
         case Mode.symbols:
@@ -103,6 +114,7 @@ export default (state: ITextData = newQuote(), action: Action): ITextData => {
         case Mode.numbers:
           return newNumbers()
         case Mode.repeatedWords:
+               // @ts-ignore
           return newRepeated(action.payload.words)
         default:
           return state

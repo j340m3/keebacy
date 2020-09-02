@@ -1,4 +1,8 @@
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
+
+
+
+import thunk from 'redux-thunk'
 
 import rootReducer from './reducers'
 
@@ -19,4 +23,4 @@ export interface IStoreState {
   typingData: ITypingData
 }
 
-export default createStore<IStoreState, any, any, any>(rootReducer)
+export default createStore<IStoreState, any, any, any>(rootReducer, applyMiddleware(thunk))
