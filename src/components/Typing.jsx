@@ -1,4 +1,5 @@
 import * as React from 'react'
+import * as _ from 'lodash'
 import { connect } from 'react-redux'
 import {
   changeCharsTyped,
@@ -25,6 +26,37 @@ class Typing extends React.Component {
      this.setState({ text: this.props.text })
   }
 
+  handleDeletion(cursorPosition, errorPosition, keydown) {
+      let text = this.props.text[this.state.textCounter]
+      if (cursorPosition > 0) {
+
+        const newItems = [...this.state.text]
+        newItems.splice(cursorPosition , 1)
+        this.setState({ text: newItems.join("") })
+
+        // checks to see if we can set errorPosition to undefined if we backspaced over it
+        const setErrorPosition = (cursorPos, errPos) => {
+             this.setState({
+               cursorPosition,
+               errorPosition: errPos === undefined ?
+                   undefined : cursorPos > errPos ? errPos : undefined,
+             })
+        }
+
+       cursorPosition -= 1
+       setErrorPosition(cursorPosition, errorPosition)
+
+       // This is the Ctrl+Delete case
+       if (keydown.event.ctrlKey) {
+         while(!(text[cursorPosition-1] === " " && text[cursorPosition] !== " ")) {
+           if (cursorPosition < 1) break;
+           cursorPosition -= 1
+           setErrorPosition(cursorPosition, errorPosition)
+         }
+        }
+      }
+  }
+
   componentDidUpdate(prevProps) {
 
     const { newText, changeCharsTyped, changeErrorPercent } = this.props
@@ -38,8 +70,6 @@ class Typing extends React.Component {
     }
 
     if (prevProps.keydown.event) {
-
-
 
       if (PRINTABLE_CHARACTERS.includes(keydown.event.key)
         || keydown.event.key === 'Tab') {
@@ -97,44 +127,12 @@ class Typing extends React.Component {
           cursorPosition -= 1
         }
 
-        this.setState({
-          cursorPosition,
-          errorPosition,
-          errorSum,
-        })
+        this.setState({ cursorPosition, errorPosition, errorSum })
 
       } else if (keydown.event.key === 'Backspace') {
-
-        if (cursorPosition > 0) {
-
-          const newItems = [...this.state.text]
-          newItems.splice(cursorPosition , 1)
-          this.setState({ text: newItems.join("") })
-
-          // checks to see if we can set errorPosition to undefined if we backspaced over it
-          const setErrorPosition = (cursorPos, errPos) => {
-               this.setState({
-                 cursorPosition,
-                 errorPosition: errPos === undefined ?
-                     undefined : cursorPos > errPos ? errPos : undefined,
-               })
-          }
-
-         cursorPosition -= 1
-         setErrorPosition(cursorPosition, errorPosition)
-
-         // This is the Ctrl+Delete case
-         if (keydown.event.ctrlKey) {
-           while(!(text[cursorPosition-1] === " " && text[cursorPosition] !== " ")) {
-             if (cursorPosition < 1) break;
-             cursorPosition -= 1
-             setErrorPosition(cursorPosition, errorPosition)
-           }
-         }
-        }
+             this.handleDeletion(cursorPosition, errorPosition,  keydown)
       }
-      const chars = errorPosition === undefined ? cursorPosition : errorPosition
-      changeCharsTyped(chars)
+      changeCharsTyped(_.defaultTo(errorPosition, cursorPosition))
     }
   }
 
