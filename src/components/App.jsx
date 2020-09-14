@@ -4,30 +4,23 @@ import { connect } from 'react-redux'
 
 import Buttons from '../components/Buttons'
 import Stats from '../components/StatsBar'
+import Hist from '../components/HistStats'
 import Typing from '../components/Typing'
-import { GITHUB_URL } from '../constants'
-import { IStoreState } from '../store'
 import TextInfo from './TextInfo'
 
-interface IAppProps {
-  author?: string
-  keydown?: any
-}
-
 @keydown(ALL_KEYS)
-class App extends React.Component<IAppProps> {
-  public render() {
+class App extends React.Component {
+
+  render() {
     // tslint:disable-next-line:no-shadowed-variable
     const { author, keydown } = this.props
     return (
       <div>
-        <h3>
-          <a href={GITHUB_URL}>wpm-spa</a>
-        </h3>
         <Buttons />
         <br />
         <Stats />
         <br />
+        <div style={{ height: 150 }}>
         <Typing keydown={keydown} />
         {author !== undefined && (
           <div>
@@ -35,12 +28,16 @@ class App extends React.Component<IAppProps> {
             <TextInfo />
           </div>
         )}
+          </div>
+        <br />
+        <Hist />
+        <br />
       </div>
     )
   }
 }
 
-const mapStateToProps = (state: IStoreState) => {
+const mapStateToProps = (state) => {
   return {
     author: state.textData.author,
   }

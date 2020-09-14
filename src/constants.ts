@@ -1,20 +1,17 @@
-export const PRINTABLE_CHARACTERS = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,./<>?;:\'"[]\\{}|`~!@#$%^&*()-_=+ '.split(
-  '',
-)
+export const PRINTABLE_CHARACTERS = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,./<>?;:\'"[]\\{}|~!@#$%^&*()-_=+ öäüßÖÄÜ'.split('',)
 
-export const SYMBOLS = ',./<>?;:\'"[]\\{}|`~!@#$%^&*()-_=+'.split('')
-
+export const SYMBOLS = ',./<>?;:\'"[]\\{}|~!@#$%^&*()-_=+'.split('')
 export const NUMBERS = '0123456789'.split('')
-
-export const RANDOM_LENGTH = 50
+export const RANDOM_LENGTH = 20
 
 export enum Mode {
   quote = 'quote',
-  code = 'code',
+  wiki = 'wiki',
   random = 'random',
   symbols = 'symbols',
   numbers = 'numbers',
-  repeatedWords = 'repeated-words',
+  words = 'words',
+  repeatedWords = 'repeated words',
 }
 
-export const GITHUB_URL = 'https://github.com/cjbassi/wpm-spa'
+export const GITHUB_URL = 'https://github.com/madnight'

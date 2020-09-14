@@ -1,25 +1,18 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 
-import { IStoreState } from '../store'
-
-interface ITextInfoProps {
-  author?: string
-  context?: string
-}
-
-class TextInfo extends React.Component<ITextInfoProps> {
-  public render() {
+class TextInfo extends React.Component {
+  render() {
     const { author, context } = this.props
     return (
       <div>
-        -{author}, {context}
+        -{author}{context ? ", " + context : ""}
       </div>
     )
   }
 }
 
-const matchStateToProps = (state: IStoreState) => {
+const matchStateToProps = (state) => {
   return {
     author: state.textData.author,
     context: state.textData.context,
