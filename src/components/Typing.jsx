@@ -39,6 +39,8 @@ class Typing extends React.Component {
 
     if (prevProps.keydown.event) {
 
+
+
       if (PRINTABLE_CHARACTERS.includes(keydown.event.key)
         || keydown.event.key === 'Tab') {
 
@@ -109,19 +111,26 @@ class Typing extends React.Component {
           newItems.splice(cursorPosition , 1)
           this.setState({ text: newItems.join("") })
 
-          cursorPosition -= 1
-
           // checks to see if we can set errorPosition to undefined if we backspaced over it
-          errorPosition =
-            errorPosition === undefined
-              ? undefined
-              : cursorPosition > errorPosition
-                ? errorPosition
-                : undefined
-          this.setState({
-            cursorPosition,
-            errorPosition,
-          })
+          const setErrorPosition = (cursorPos, errPos) => {
+               this.setState({
+                 cursorPosition,
+                 errorPosition: errPos === undefined ?
+                     undefined : cursorPos > errPos ? errPos : undefined,
+               })
+          }
+
+         cursorPosition -= 1
+         setErrorPosition(cursorPosition, errorPosition)
+
+         // This is the Ctrl+Delete case
+         if (keydown.event.ctrlKey) {
+           while(!(text[cursorPosition-1] === " " && text[cursorPosition] !== " ")) {
+             if (cursorPosition < 1) break;
+             cursorPosition -= 1
+             setErrorPosition(cursorPosition, errorPosition)
+           }
+         }
         }
       }
       const chars = errorPosition === undefined ? cursorPosition : errorPosition
