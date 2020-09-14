@@ -10,37 +10,36 @@ import TextInfo from './TextInfo'
 
 @keydown(ALL_KEYS)
 class App extends React.Component {
-
-  render() {
-    // tslint:disable-next-line:no-shadowed-variable
-    const { author, keydown } = this.props
-    return (
-      <div>
-        <Buttons />
-        <br />
-        <Stats />
-        <br />
-        <div style={{ height: 150 }}>
-        <Typing keydown={keydown} />
-        {author !== undefined && (
-          <div>
-            <br />
-            <TextInfo />
-          </div>
-        )}
-          </div>
-        <br />
-        <Hist />
-        <br />
-      </div>
-    )
-  }
+    render() {
+        // tslint:disable-next-line:no-shadowed-variable
+        const { author, keydown } = this.props
+        return (
+            <div>
+                <Buttons />
+                <br />
+                <Stats />
+                <br />
+                <div style={{ height: 150 }}>
+                    <Typing keydown={keydown} />
+                    {author !== undefined && (
+                        <div>
+                            <br />
+                            <TextInfo />
+                        </div>
+                    )}
+                </div>
+                <br />
+                <Hist />
+                <br />
+            </div>
+        )
+    }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    author: state.textData.author,
-  }
+const mapStateToProps = state => {
+    return {
+        author: state.textData.author,
+    }
 }
 
 export default connect(mapStateToProps)(App)
