@@ -1,14 +1,15 @@
 import { action } from 'typesafe-actions'
 import axios from 'axios'
 import { chunk, flatten } from 'lodash/fp'
+import { split } from 'sentence-splitter'
 
-import { PRINTABLE_CHARACTERS } from '../constants'
-
-const { split } = require("sentence-splitter")
+import { Mode, PRINTABLE_CHARACTERS } from '../constants'
 
 export const newText = (mode, words) => {
-  console.log("MODE", mode)
-  console.log("WORDS", words)
+
+  if (mode !== Mode.wiki) {
+      return action('NEW_TEXT', { mode, words })
+  }
 
   return async (dispatch) => {
 

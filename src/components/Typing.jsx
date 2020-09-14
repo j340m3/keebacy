@@ -177,8 +177,8 @@ const mapDispatchToProps = (dispatch) => {
     changeErrorPercent: (percent) => {
       dispatch(changeErrorPercent(percent))
     },
-    newText: () => {
-      dispatch(newText())
+    newText: (mode, words) => {
+      dispatch(newText(mode, words))
       dispatch(changeCharsTyped(0))
     },
   }
