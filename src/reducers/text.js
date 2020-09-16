@@ -15,7 +15,8 @@ import {
 } from '../constants'
 
 import quotes from '../static/quotes/lang_en.json'
-import words from '../static/words/ngsl.json'
+// import words from '../static/words/ngsl.json'
+import words from '../static/words/german.json'
 
 const chance = new Chance()
 
@@ -43,16 +44,19 @@ export const newQuote = () => {
 }
 
 export const newWords = () => {
+    const wordList = (words.words).slice(0,2800)
     // Uses the New General Service List (NGSL) which covers 90% of general
     // written english texts. The first 200 words (covering more than 50%) are
     // weighted much higher than the remaining 2600 words.
     const getWeightedRandomWord = () =>
         chance.weighted(
-            words.words,
+            wordList,
             _.fill(Array(200), 100).concat(
-                _.fill(Array(words.words.length - 200), 1),
+                _.fill(Array(wordList.length - 200), 1),
             ),
         )
+
+    
 
     const uniqWordSample = [
         _.take(_.uniq(_.times(30, getWeightedRandomWord)), 20).join(' '),

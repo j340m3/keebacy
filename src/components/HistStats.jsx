@@ -67,7 +67,7 @@ class HistStats extends React.Component {
         const avgErrors = defaultTo(0)(sum(errors) / histLen)
         return (
             <div style={{ color: '#A0A0A0' }}>
-                {histLen > 0 ? ' ' + avgWpm + ' wpm and ' : ''}
+                {histLen > 0 ? ' ' + avgWpm.toFixed(0) + ' wpm and ' : ''}
                 {histLen > 0
                     ? ' ' +
                       avgErrors.toFixed(1).replace(/[.,]00$/, '') +
