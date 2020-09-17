@@ -56,8 +56,6 @@ export const newWords = () => {
             ),
         )
 
-    
-
     const uniqWordSample = [
         _.take(_.uniq(_.times(30, getWeightedRandomWord)), 20).join(' '),
     ]

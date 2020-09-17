@@ -151,6 +151,7 @@ class Typing extends React.Component {
     render() {
         const text = this.state.text
         const { cursorPosition, errorPosition } = this.state
+        if (!text) return (<div></div>)
         return (
             <div style={{ fontFamily: FONT, fontSize: 18 }}>
                 <mark style={{ color: TYPED_COLOR, background: '#ffffff' }}>
