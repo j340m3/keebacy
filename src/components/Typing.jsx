@@ -83,7 +83,8 @@ class Typing extends React.Component {
             ) {
                 // if a printable character was just typed
                 if (
-                    errorPosition === undefined && text !== undefined &&
+                    errorPosition === undefined &&
+                    text !== undefined &&
                     keydown.event.key !== text[cursorPosition]
                 ) {
                     // set errorPosition to cursorPosition if we typed an error without
@@ -151,7 +152,7 @@ class Typing extends React.Component {
     render() {
         const text = this.state.text
         const { cursorPosition, errorPosition } = this.state
-        if (!text) return (<div></div>)
+        if (!text) return <div></div>
         return (
             <div style={{ fontFamily: FONT, fontSize: 18 }}>
                 <mark style={{ color: TYPED_COLOR, background: '#ffffff' }}>

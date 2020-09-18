@@ -9,14 +9,15 @@ import Chance from 'chance'
 import {
     Mode,
     NUMBERS,
+    NEW_TEXT,
     PRINTABLE_CHARACTERS,
     RANDOM_LENGTH,
     SYMBOLS,
 } from '../constants'
 
 import quotes from '../static/quotes/lang_en.json'
-// import words from '../static/words/ngsl.json'
-import words from '../static/words/german.json'
+import words from '../static/words/ngsl.json'
+// import words from '../static/words/german.json'
 
 const chance = new Chance()
 
@@ -44,7 +45,7 @@ export const newQuote = () => {
 }
 
 export const newWords = () => {
-    const wordList = (words.words).slice(0,2800)
+    const wordList = words.words.slice(0, 2800)
     // Uses the New General Service List (NGSL) which covers 90% of general
     // written english texts. The first 200 words (covering more than 50%) are
     // weighted much higher than the remaining 2600 words.
@@ -61,8 +62,6 @@ export const newWords = () => {
     ]
 
     return {
-        author: undefined,
-        context: undefined,
         mode: Mode.words,
         text: uniqWordSample,
     }
@@ -72,7 +71,6 @@ export const newWiki = playload => {
     const { author, comments } = playload
     return {
         author: _.defaultTo(author, ''),
-        context: undefined,
         mode: Mode.wiki,
         text: _.defaultTo(comments, ''),
     }
@@ -83,8 +81,6 @@ export const newRandom = () => {
         .map(() => _.sample(PRINTABLE_CHARACTERS))
         .join('')
     return {
-        author: undefined,
-        context: undefined,
         mode: Mode.random,
         text: [text],
     }
@@ -95,8 +91,6 @@ export const newSymbols = () => {
         .map(() => _.sample(SYMBOLS))
         .join('')
     return {
-        author: undefined,
-        context: undefined,
         mode: Mode.symbols,
         text: [text],
     }
@@ -107,8 +101,6 @@ export const newNumbers = () => {
         .map(() => _.sample(NUMBERS))
         .join('')
     return {
-        author: undefined,
-        context: undefined,
         mode: Mode.numbers,
         text: [text],
     }
@@ -119,8 +111,6 @@ export const newRepeated = words => {
         .map(() => _.sample(words))
         .join(' ')
     return {
-        author: undefined,
-        context: undefined,
         mode: Mode.repeatedWords,
         text: [text],
     }
@@ -128,7 +118,7 @@ export const newRepeated = words => {
 
 export default (state = newQuote(), action) => {
     switch (action.type) {
-        case 'NEW_TEXT':
+        case NEW_TEXT:
             const mode =
                 action.payload.mode === undefined
                     ? state.mode
@@ -146,6 +136,8 @@ export default (state = newQuote(), action) => {
                     return newSymbols()
                 case Mode.numbers:
                     return newNumbers()
+                case Mode.settings:
+                    return { mode: Mode.settings }
                 case Mode.repeatedWords:
                     return newRepeated(action.payload.words)
                 default:

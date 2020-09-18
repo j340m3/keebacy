@@ -3,16 +3,18 @@ import keydown, { ALL_KEYS } from 'react-keydown'
 import { connect } from 'react-redux'
 
 import Buttons from '../components/Buttons'
+import Settings from '../components/Settings'
 import Stats from '../components/StatsBar'
 import Hist from '../components/HistStats'
 import Typing from '../components/Typing'
 import TextInfo from './TextInfo'
+import { Mode } from '../constants'
 
 @keydown(ALL_KEYS)
 class App extends React.Component {
     render() {
         // tslint:disable-next-line:no-shadowed-variable
-        const { author, keydown } = this.props
+        const { author, keydown, mode } = this.props
         return (
             <div>
                 <Buttons />
@@ -20,7 +22,8 @@ class App extends React.Component {
                 <Stats />
                 <br />
                 <div style={{ height: 150 }}>
-                    <Typing keydown={keydown} />
+                    {mode !== Mode.settings && <Typing keydown={keydown} />}
+                    {mode === Mode.settings && <Settings />}
                     {author !== undefined && (
                         <div>
                             <br />
@@ -39,6 +42,7 @@ class App extends React.Component {
 const mapStateToProps = state => {
     return {
         author: state.textData.author,
+        mode: state.textData.mode,
     }
 }
 

@@ -6,6 +6,8 @@ export const SYMBOLS = ',./<>?;:\'"[]\\{}|~!@#$%^&*()-_=+'.split('')
 export const NUMBERS = '0123456789'.split('')
 export const RANDOM_LENGTH = 20
 
+export const NEW_TEXT = 'NEW_TEXT'
+
 export enum Mode {
     quote = 'quote',
     wiki = 'wiki',
