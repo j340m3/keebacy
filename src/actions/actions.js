@@ -1,6 +1,6 @@
 import { action } from 'typesafe-actions'
 import axios from 'axios'
-import { chunk, flatten } from 'lodash/fp'
+import { chunk, flatten, defaultTo } from 'lodash/fp'
 import { split } from 'sentence-splitter'
 
 import { Mode, PRINTABLE_CHARACTERS } from '../constants'
@@ -11,7 +11,8 @@ export const newText = (mode, words) => {
     }
 
     return async dispatch => {
-        const wikiBaseURL = 'https://de.wikipedia.org/w/api.php' // en. es.
+        const lang = defaultTo('en')(localStorage.getItem('language'))
+        const wikiBaseURL = 'https://' + lang + '.wikipedia.org/w/api.php'
         const wikiURL =
             wikiBaseURL +
             '?format=json' +

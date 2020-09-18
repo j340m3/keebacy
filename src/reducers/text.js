@@ -1,6 +1,6 @@
 import * as _ from 'lodash'
 
-import { chunk, flatten } from 'lodash/fp'
+import { chunk, flatten, defaultTo } from 'lodash/fp'
 
 import { split } from 'sentence-splitter'
 
@@ -15,13 +15,13 @@ import {
     SYMBOLS,
 } from '../constants'
 
-import quotes from '../static/quotes/lang_en.json'
-import words from '../static/words/ngsl.json'
-// import words from '../static/words/german.json'
-
 const chance = new Chance()
 
 export const newQuote = () => {
+
+    const lang = defaultTo('en')(localStorage.getItem('language'))
+    const quotes = require('../static/quotes/lang_' + lang + '.json')
+
     const { author, context, text } = _.sample(quotes)
 
     const splitter = text =>
@@ -45,6 +45,8 @@ export const newQuote = () => {
 }
 
 export const newWords = () => {
+    const lang = defaultTo('en')(localStorage.getItem('language'))
+    const words = require('../static/words/' + lang + '.json')
     const wordList = words.words.slice(0, 2800)
     // Uses the New General Service List (NGSL) which covers 90% of general
     // written english texts. The first 200 words (covering more than 50%) are
