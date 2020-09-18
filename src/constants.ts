@@ -13,7 +13,8 @@ export enum Mode {
     symbols = 'symbols',
     numbers = 'numbers',
     words = 'words',
-    repeatedWords = 'repeated words',
+    settings = 'settings',
+    repeatedWords = 'custom',
 }
 
 export const GITHUB_URL = 'https://github.com/madnight'

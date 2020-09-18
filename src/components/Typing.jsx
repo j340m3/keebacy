@@ -83,7 +83,7 @@ class Typing extends React.Component {
             ) {
                 // if a printable character was just typed
                 if (
-                    errorPosition === undefined &&
+                    errorPosition === undefined && text !== undefined &&
                     keydown.event.key !== text[cursorPosition]
                 ) {
                     // set errorPosition to cursorPosition if we typed an error without

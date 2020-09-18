@@ -13,6 +13,7 @@ class Buttons extends React.Component {
         ref5: React.createRef(),
         ref6: React.createRef(),
         ref7: React.createRef(),
+        ref8: React.createRef(),
         repeatedWordsMode: false,
     }
 
@@ -50,6 +51,7 @@ class Buttons extends React.Component {
             ref5,
             ref6,
             ref7,
+            ref8,
             repeatedWordsMode,
         } = this.state
         return (
@@ -57,7 +59,6 @@ class Buttons extends React.Component {
                 {this.renderModeButton(ref1, Mode.quote)}
                 {this.renderModeButton(ref2, Mode.wiki)}
                 {this.renderModeButton(ref7, Mode.words)}
-                {this.renderModeButton(ref3, Mode.random)}
                 {this.renderModeButton(ref4, Mode.symbols)}
                 {this.renderModeButton(ref5, Mode.numbers)}
                 <button
@@ -85,6 +86,7 @@ class Buttons extends React.Component {
                         </form>
                     </div>
                 )}
+                {this.renderModeButton(ref8, Mode.settings)}
             </div>
         )
     }
