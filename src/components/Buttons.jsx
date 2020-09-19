@@ -14,6 +14,7 @@ class Buttons extends React.Component {
         ref6: React.createRef(),
         ref7: React.createRef(),
         ref8: React.createRef(),
+        ref9: React.createRef(),
         repeatedWordsMode: false,
     }
 
@@ -52,6 +53,7 @@ class Buttons extends React.Component {
             ref6,
             ref7,
             ref8,
+            ref9,
             repeatedWordsMode,
         } = this.state
         return (
@@ -59,8 +61,9 @@ class Buttons extends React.Component {
                 {this.renderModeButton(ref1, Mode.quote)}
                 {this.renderModeButton(ref2, Mode.wiki)}
                 {this.renderModeButton(ref7, Mode.words)}
+                {this.renderModeButton(ref9, Mode.kafka)}
                 {this.renderModeButton(ref4, Mode.symbols)}
-                {this.renderModeButton(ref5, Mode.numbers)}
+                {this.renderModeButton(ref6, Mode.numbers)}
                 <button
                     ref={ref6}
                     onClick={() => {

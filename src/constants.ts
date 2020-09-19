@@ -11,6 +11,7 @@ export const NEW_TEXT = 'NEW_TEXT'
 export enum Mode {
     quote = 'quote',
     wiki = 'wiki',
+    kafka = 'kafka',
     random = 'random',
     symbols = 'symbols',
     numbers = 'numbers',

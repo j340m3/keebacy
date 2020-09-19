@@ -6,11 +6,12 @@ import { split } from 'sentence-splitter'
 import { Mode, PRINTABLE_CHARACTERS } from '../constants'
 
 export const newText = (mode, words) => {
-    if (mode !== Mode.wiki) {
-        return action('NEW_TEXT', { mode, words })
-    }
-
     return async dispatch => {
+        if (mode !== Mode.wiki) {
+            dispatch({ type: 'NEW_TEXT', payload: { mode, words } })
+            return
+        }
+
         const lang = defaultTo('en')(localStorage.getItem('language'))
         const wikiBaseURL = 'https://' + lang + '.wikipedia.org/w/api.php'
         const wikiURL =
@@ -33,6 +34,9 @@ export const newText = (mode, words) => {
             const content = JSON.parse(wiki.data.contents)
             const firstKey = Object.keys(content.query.pages)[0]
             const { extract, title } = content.query.pages[firstKey]
+
+            console.log(extract)
+
             const wikiArticle = extract
                 .replace(
                     /[^a-zA-Z0-9,.\/<>?;:\'"\[\]\\|~!@#$%^&*() ÜüÄäÖö\-ß]/g,
@@ -41,6 +45,11 @@ export const newText = (mode, words) => {
                 .replace('  ', ' ')
                 .replace(/(?!\w)\.(?=\w)/g, '. ')
                 .replace(/ *\([^)]*\) */g, '')
+
+            if (wikiArticle.includes('steht für:')) return newText(mode, words)
+            if (wikiArticle.includes('Vorlage:Infobox'))
+                return newText(mode, words)
+            if (wikiArticle === '') return newText(mode, words)
 
             const wikiSentences = split(wikiArticle)
                 .map(x => (x.type == 'Sentence' ? x.raw : null))

@@ -76,7 +76,7 @@ class Typing extends React.Component {
             this.setState({ text: text })
         }
 
-        if (prevProps.keydown.event) {
+        if (prevProps.keydown.event && text !== undefined) {
             if (
                 PRINTABLE_CHARACTERS.includes(keydown.event.key) ||
                 keydown.event.key === 'Tab'

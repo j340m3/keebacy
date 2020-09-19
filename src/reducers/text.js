@@ -17,6 +17,32 @@ import {
 
 const chance = new Chance()
 
+export const newKafka = () => {
+
+    const quotes = require('../static/books/kafka.json')
+
+    const splitter = text =>
+        split(text)
+            .map(x => (x.type === 'Sentence' ? x.raw : null))
+            .filter(Boolean)
+    const quote = splitter(quotes.join(" ").replace("  ", " "))
+    const combinedQuotes = flatten(
+        chunk(2, quote).map(x =>
+            x.length === 2 && x[0].length + x[1].length < 120
+                ? [x[0] + ' ' + x[1]]
+                : x,
+        ),
+    )
+    return {
+        author: "Franz Kafka",
+        context: "Metamorphosis",
+        mode: Mode.quote,
+        text: [_.sample(combinedQuotes)],
+    }
+}
+
+
+
 export const newQuote = () => {
 
     const lang = defaultTo('en')(localStorage.getItem('language'))
@@ -130,6 +156,8 @@ export default (state = newQuote(), action) => {
                     return newQuote()
                 case Mode.words:
                     return newWords()
+                case Mode.kafka:
+                    return newKafka()
                 case Mode.wiki:
                     return newWiki(action.payload)
                 case Mode.random:

@@ -19,7 +19,7 @@ class App extends React.Component {
             <div>
                 <Buttons />
                 <br />
-                <Stats />
+                {mode !== Mode.settings && <Stats />}
                 <br />
                 <div style={{ height: 150 }}>
                     {mode !== Mode.settings && <Typing keydown={keydown} />}
@@ -32,7 +32,7 @@ class App extends React.Component {
                     )}
                 </div>
                 <br />
-                <Hist />
+                {mode !== Mode.settings && <Hist />}
                 <br />
             </div>
         )
