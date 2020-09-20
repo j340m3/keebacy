@@ -7,6 +7,7 @@ import { Mode, PRINTABLE_CHARACTERS } from '../constants'
 
 export const newText = (mode, words) => {
     return async dispatch => {
+
         if (mode !== Mode.wiki) {
             dispatch({ type: 'NEW_TEXT', payload: { mode, words } })
             return

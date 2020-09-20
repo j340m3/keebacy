@@ -66,7 +66,7 @@ class Typing extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        const { newText, changeCharsTyped, changeErrorPercent } = this.props
+        const { newText, mode, changeCharsTyped, changeErrorPercent } = this.props
         let text = this.props.text[this.state.textCounter]
         let { cursorPosition, errorPosition, errorSum } = this.state
         const { keydown } = prevProps
@@ -122,7 +122,7 @@ class Typing extends React.Component {
                             textCounter: this.state.textCounter + 1,
                         })
                     } else {
-                        newText()
+                        newText(mode)
                         this.setState({ textCounter: 0 })
                     }
 
@@ -180,6 +180,7 @@ class Typing extends React.Component {
 const matchStateToProps = state => {
     return {
         text: state.textData.text,
+        mode: state.textData.mode,
     }
 }
 
