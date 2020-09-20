@@ -34,11 +34,31 @@ class HistStats extends React.Component {
         if (this.props === prevProps) {
             return
         }
-        const { chars } = this.props
+        const { chars, pos } = this.props
         if (prevProps.chars === 0 && chars === 1) {
+            // if we are started typing a new text
+            // first character typed => counter starts
             this.startTimer()
-            this.setState({ chars, finished: false })
-        } else if (prevProps.chars !== 0 && chars === 0) {
+            this.setState({
+                chars,
+                finished: false,
+            })
+        } else if (
+            prevProps.chars !== prevProps.text[pos].length - 1 &&
+            chars === 0
+        ) {
+            // if we skipped text (pressed tab)
+            this.stopTimer()
+            this.setState({
+                chars,
+                finished: true,
+            })
+        } else if (
+            prevProps.chars === prevProps.text[pos].length - 1 &&
+            chars === 0
+        ) {
+
+
             this.stopTimer()
             const { chars, hundredths } = this.state
             const sec = hundredths / 100
@@ -82,6 +102,8 @@ class HistStats extends React.Component {
 const matchStateToProps = state => {
     return {
         chars: state.typingData.charsTyped,
+        text: state.textData.text,
+        pos: state.typingData.textPosition,
         errorPercent: state.typingData.errorPercent,
     }
 }

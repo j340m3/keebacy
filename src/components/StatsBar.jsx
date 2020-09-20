@@ -35,7 +35,7 @@ class StatsBar extends React.Component {
         if (this.props === prevProps) {
             return
         }
-        const { chars, text, pos } = this.props
+        const { chars, pos } = this.props
         if (prevProps.chars === 0 && chars === 1) {
             // if we are started typing a new text
             // first character typed => counter starts
