@@ -1,8 +1,8 @@
 {
-  "name": "wpm-spa",
+  "name": "keybacy",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://cjbassi.github.io/wpm-spa",
+  "homepage": "http://madnight.github.io/keebacy",
   "dependencies": {
     "@babel/core": "7.1.0",
     "@babel/plugin-proposal-decorators": "^7.10.5",
