@@ -81,6 +81,9 @@ export const newText = (mode, words) => {
     }
 }
 
+export const changeTextPosition = textPosition =>
+    action('CHANGE_TEXT_POSITION', { textPosition })
+
 export const changeCharsTyped = charsTyped =>
     action('CHANGE_CHARS_TYPED', { charsTyped })
 

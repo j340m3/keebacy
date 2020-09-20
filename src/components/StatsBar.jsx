@@ -10,7 +10,6 @@ class StatsBar extends React.Component {
         errors: '100',
         timer: null,
         finished: false,
-        history: [],
     }
 
     startTimer = () => {
@@ -36,15 +35,29 @@ class StatsBar extends React.Component {
         if (this.props === prevProps) {
             return
         }
-        const { chars } = this.props
+        const { chars, text, pos } = this.props
         if (prevProps.chars === 0 && chars === 1) {
-            // if we are starting typing a new text
+            // if we are started typing a new text
+            // first character typed => counter starts
             this.startTimer()
             this.setState({
                 chars,
                 finished: false,
             })
-        } else if (prevProps.chars !== 0 && chars === 0) {
+        } else if (
+            prevProps.chars !== prevProps.text[pos].length - 1 &&
+            chars === 0
+        ) {
+            // if we skipped text (pressed tab)
+            this.stopTimer()
+            this.setState({
+                chars,
+                finished: true,
+            })
+        } else if (
+            prevProps.chars === prevProps.text[pos].length - 1 &&
+            chars === 0
+        ) {
             // if we finished a text
             this.stopTimer()
             const { chars, hundredths } = this.state
@@ -54,15 +67,11 @@ class StatsBar extends React.Component {
             )
             const { errorPercent } = this.props
 
-            let histArray = this.state.history
-            histArray.push({ wpm: wpm, errors: 100 - errorPercent })
-
             this.setState({
                 chars: prevProps.chars,
                 finished: true,
                 wpm: wpm,
                 errors: (100 - errorPercent).toFixed(1).replace(/[.,]0$/, ''),
-                history: histArray,
             })
         } else {
             // if we are in the middle of a text
@@ -85,8 +94,8 @@ class StatsBar extends React.Component {
                         err > 96
                             ? { color: 'green' }
                             : err > 93
-                            ? { color: '#E1AD01' }
-                            : { color: 'red' }
+                                ? { color: '#E1AD01' }
+                                : { color: 'red' }
                     }
                 >
                     {this.state.errors}% accuarcy
@@ -109,6 +118,8 @@ class StatsBar extends React.Component {
 const matchStateToProps = state => {
     return {
         chars: state.typingData.charsTyped,
+        text: state.textData.text,
+        pos: state.typingData.textPosition,
         errorPercent: state.typingData.errorPercent,
     }
 }

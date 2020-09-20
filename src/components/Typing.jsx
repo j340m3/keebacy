@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import {
     changeCharsTyped,
     changeErrorPercent,
+    changeTextPosition,
     newText,
 } from '../actions/actions'
 import { PRINTABLE_CHARACTERS } from '../constants'
@@ -33,7 +34,8 @@ class Typing extends React.Component {
             newItems.splice(cursorPosition, 1)
             this.setState({ text: newItems.join('') })
 
-            // checks to see if we can set errorPosition to undefined if we backspaced over it
+            // checks to see if we can set errorPosition to undefined
+            // if we backspaced over it
             const setErrorPosition = (cursorPos, errPos) => {
                 this.setState({
                     cursorPosition,
@@ -41,8 +43,8 @@ class Typing extends React.Component {
                         errPos === undefined
                             ? undefined
                             : cursorPos > errPos
-                            ? errPos
-                            : undefined,
+                                ? errPos
+                                : undefined,
                 })
             }
 
@@ -66,7 +68,13 @@ class Typing extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        const { newText, mode, changeCharsTyped, changeErrorPercent } = this.props
+        const {
+            newText,
+            mode,
+            changeCharsTyped,
+            changeErrorPercent,
+            changeTextPosition,
+        } = this.props
         let text = this.props.text[this.state.textCounter]
         let { cursorPosition, errorPosition, errorSum } = this.state
         const { keydown } = prevProps
@@ -121,6 +129,7 @@ class Typing extends React.Component {
                         this.setState({
                             textCounter: this.state.textCounter + 1,
                         })
+                        changeTextPosition(this.state.textCounter + 1)
                     } else {
                         newText(mode)
                         this.setState({ textCounter: 0 })
@@ -152,7 +161,7 @@ class Typing extends React.Component {
     render() {
         const text = this.state.text
         const { cursorPosition, errorPosition } = this.state
-        if (!text) return <div></div>
+        if (!text) return <div />
         return (
             <div style={{ fontFamily: FONT, fontSize: 18 }}>
                 <mark style={{ color: TYPED_COLOR, background: '#ffffff' }}>
@@ -192,6 +201,9 @@ const mapDispatchToProps = dispatch => {
         changeErrorPercent: percent => {
             dispatch(changeErrorPercent(percent))
         },
+        changeTextPosition: pos => {
+            dispatch(changeTextPosition(pos))
+        },
         newText: (mode, words) => {
             dispatch(newText(mode, words))
             dispatch(changeCharsTyped(0))
@@ -199,4 +211,7 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(matchStateToProps, mapDispatchToProps)(Typing)
+export default connect(
+    matchStateToProps,
+    mapDispatchToProps,
+)(Typing)
