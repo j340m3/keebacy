@@ -10,6 +10,8 @@ import Typing from '../components/Typing'
 import TextInfo from './TextInfo'
 import { Mode } from '../constants'
 
+const M = window.M;
+
 @keydown(ALL_KEYS)
 class App extends React.Component {
     render() {

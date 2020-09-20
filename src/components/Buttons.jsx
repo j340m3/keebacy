@@ -61,9 +61,6 @@ class Buttons extends React.Component {
                 {this.renderModeButton(ref1, Mode.quote)}
                 {this.renderModeButton(ref2, Mode.wiki)}
                 {this.renderModeButton(ref7, Mode.words)}
-                {this.renderModeButton(ref9, Mode.kafka)}
-                {this.renderModeButton(ref4, Mode.symbols)}
-                {this.renderModeButton(ref6, Mode.numbers)}
                 <button
                     ref={ref6}
                     onClick={() => {
