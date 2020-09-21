@@ -30,7 +30,7 @@ class Buttons extends React.Component {
     renderModeButton(ref, mode) {
         return (
             <button
-                style={{ fontSize: "1.2em" }}
+                style={{ fontSize: "1.1em" }}
                 ref={ref}
                 onClick={() => {
                     this.setState({ repeatedWordsMode: false })
@@ -60,7 +60,7 @@ class Buttons extends React.Component {
                 {this.renderModeButton(ref2, Mode.wiki)}
                 {this.renderModeButton(ref7, Mode.words)}
                 <button
-                    style={{ fontSize: "1.2em" }}
+                    style={{ fontSize: "1.1em" }}
                     ref={ref6}
                     onClick={() => {
                         this.setState({ repeatedWordsMode: !repeatedWordsMode })
@@ -70,7 +70,7 @@ class Buttons extends React.Component {
                     {Mode.repeatedWords}
                 </button>
                 {repeatedWordsMode && (
-                    <div style={{ display: 'inline', fontSize: "1.2em" }}>
+                    <div style={{ display: 'inline', fontSize: "1.1em" }}>
                         {' '}
                         <form
                             style={{ display: 'inline' }}
