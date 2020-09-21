@@ -107,7 +107,7 @@ class StatsBar extends React.Component {
         }
 
         return (
-            <div>
+            <div style={{ fontSize: "1.2em" }}>
                 {wpmspan}
                 {accuarcy}
             </div>

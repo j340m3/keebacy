@@ -57,8 +57,6 @@ class HistStats extends React.Component {
             prevProps.chars === prevProps.text[pos].length - 1 &&
             chars === 0
         ) {
-
-
             this.stopTimer()
             const { chars, hundredths } = this.state
             const sec = hundredths / 100
@@ -86,7 +84,7 @@ class HistStats extends React.Component {
         const avgWpm = defaultTo(0)(sum(wpms) / histLen)
         const avgErrors = defaultTo(0)(sum(errors) / histLen)
         return (
-            <div style={{ color: '#A0A0A0' }}>
+            <div style={{ color: '#A0A0A0', fontSize: '1.2em' }}>
                 {histLen > 0 ? ' ' + avgWpm.toFixed(0) + ' wpm and ' : ''}
                 {histLen > 0
                     ? ' ' +

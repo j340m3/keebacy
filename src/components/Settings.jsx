@@ -49,6 +49,11 @@ class Settings extends React.Component {
                     <option value={6}>6</option>
                     <option value={7}>7</option>
                 </select>
+                <br /> <br />
+                If you have any questions, suggestions or want to find out
+                <br />
+                more about this project visit the project website on{' '}
+                <a href="https://github.com/madnight/keebacy#faq">GitHub</a>.
             </div>
         )
     }
