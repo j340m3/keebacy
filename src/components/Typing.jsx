@@ -21,6 +21,7 @@ class Typing extends React.Component {
         errorSum: 0,
         textCounter: 0,
         text: '',
+        block: false,
     }
 
     componentDidMount(prevProps) {
@@ -84,10 +85,15 @@ class Typing extends React.Component {
             this.setState({ text: text })
         }
 
-        if (prevProps.keydown.event && text !== undefined) {
+        if (
+            prevProps.keydown.event &&
+            text !== undefined &&
+            !this.state.block
+        ) {
             if (
                 PRINTABLE_CHARACTERS.includes(keydown.event.key) ||
-                keydown.event.key === 'Tab'
+                keydown.event.key === 'Tab' ||
+                keydown.event.key === 'Escape'
             ) {
                 // if a printable character was just typed
                 if (
@@ -112,6 +118,24 @@ class Typing extends React.Component {
                 cursorPosition += 1
 
                 if (keydown.event.key === 'Tab') {
+                    keydown.event.preventDefault()
+                }
+
+                const maxError = _.defaultTo(
+                    localStorage.getItem('maxError'),
+                    Number.MAX_SAFE_INTEGER,
+                )
+
+                if (errorSum > maxError || keydown.event.key === 'Escape') {
+                    cursorPosition = 0
+                    errorPosition = undefined
+                    errorSum = 0
+                    changeErrorPercent(100 * (errorSum / text.length))
+                    // block typing for while after max error reached
+                    if (keydown.event.key !== 'Escape') {
+                        this.setState({ block: true })
+                        setInterval(() => this.setState({ block: false }), 2000)
+                    }
                     keydown.event.preventDefault()
                 }
 
