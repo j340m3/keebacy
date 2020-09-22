@@ -134,7 +134,7 @@ class Typing extends React.Component {
                     // block typing for while after max error reached
                     if (keydown.event.key !== 'Escape') {
                         this.setState({ block: true })
-                        setInterval(() => this.setState({ block: false }), 2000)
+                        setTimeout(() => this.setState({ block: false }), 500)
                     }
                     keydown.event.preventDefault()
                 }
