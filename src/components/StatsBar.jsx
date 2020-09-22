@@ -36,6 +36,30 @@ class StatsBar extends React.Component {
             return
         }
         const { chars, pos } = this.props
+
+        if (
+            Number.isFinite(prevProps.pos) &&
+            prevProps.chars === prevProps.text[prevProps.pos].length - 1 &&
+            chars === 0
+        ) {
+            // if we finished a text
+            this.stopTimer()
+            const { chars, hundredths } = this.state
+            const sec = hundredths / 100
+            const wpm = parseInt(
+                (sec === 0 ? 0 : chars / 5 / (sec / 60)).toFixed(0),
+            )
+            const { errorPercent } = this.props
+
+            this.setState({
+                chars: prevProps.chars,
+                finished: true,
+                wpm: wpm,
+                errors: (100 - errorPercent).toFixed(1).replace(/[.,]0$/, ''),
+            })
+            return
+        }
+
         if (prevProps.chars === 0 && chars === 1) {
             // if we are started typing a new text
             // first character typed => counter starts
@@ -53,25 +77,6 @@ class StatsBar extends React.Component {
             this.setState({
                 chars,
                 finished: true,
-            })
-        } else if (
-            prevProps.chars === prevProps.text[pos].length - 1 &&
-            chars === 0
-        ) {
-            // if we finished a text
-            this.stopTimer()
-            const { chars, hundredths } = this.state
-            const sec = hundredths / 100
-            const wpm = parseInt(
-                (sec === 0 ? 0 : chars / 5 / (sec / 60)).toFixed(0),
-            )
-            const { errorPercent } = this.props
-
-            this.setState({
-                chars: prevProps.chars,
-                finished: true,
-                wpm: wpm,
-                errors: (100 - errorPercent).toFixed(1).replace(/[.,]0$/, ''),
             })
         } else {
             // if we are in the middle of a text
@@ -107,7 +112,7 @@ class StatsBar extends React.Component {
         }
 
         return (
-            <div style={{ fontSize: "1.2em" }}>
+            <div style={{ fontSize: '1.2em' }}>
                 {wpmspan}
                 {accuarcy}
             </div>

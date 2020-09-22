@@ -35,6 +35,27 @@ class HistStats extends React.Component {
             return
         }
         const { chars, pos } = this.props
+        if (
+            Number.isFinite(prevProps.pos) &&
+            prevProps.chars === prevProps.text[prevProps.pos].length - 1 &&
+            chars === 0
+        ) {
+            this.stopTimer()
+            const { chars, hundredths } = this.state
+            const sec = hundredths / 100
+            const wpm = parseInt(
+                (sec === 0 ? 0 : chars / 5 / (sec / 60)).toFixed(0),
+            )
+            const { errorPercent } = this.props
+
+            let histArray = this.state.history
+            histArray.push({ wpm: wpm, errors: 100 - errorPercent })
+
+            this.setState({
+                chars: prevProps.chars,
+                history: histArray,
+            })
+        }
         if (prevProps.chars === 0 && chars === 1) {
             // if we are started typing a new text
             // first character typed => counter starts
@@ -52,25 +73,6 @@ class HistStats extends React.Component {
             this.setState({
                 chars,
                 finished: true,
-            })
-        } else if (
-            prevProps.chars === prevProps.text[pos].length - 1 &&
-            chars === 0
-        ) {
-            this.stopTimer()
-            const { chars, hundredths } = this.state
-            const sec = hundredths / 100
-            const wpm = parseInt(
-                (sec === 0 ? 0 : chars / 5 / (sec / 60)).toFixed(0),
-            )
-            const { errorPercent } = this.props
-
-            let histArray = this.state.history
-            histArray.push({ wpm: wpm, errors: 100 - errorPercent })
-
-            this.setState({
-                chars: prevProps.chars,
-                history: histArray,
             })
         } else {
             this.setState({ chars })
