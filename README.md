@@ -43,7 +43,7 @@ If you are not able to touch type, then I would recommend you to start with [typ
 
 #### Q: I'm already typing at 100 WPM+ is this website still for me?
 
-Yes, but you might want to consult [Jashe's Comprehensive (Speed)Typing Guide](https://archive.is/dh9Ch)
+Yes, but you might want to consult [Jashe's Comprehensive (Speed)Typing Guide](https://archive.is/dh9Ch).
 
 #### Q: How do you recommend to train typing speed on your website?
 
@@ -51,11 +51,11 @@ Do not focus on speed. You will get faster as your accuracy increases, since acc
 
 #### Q: Why are the samples rather short?
 
-Keebacy focuses on burst typing, rather than endurance typing of longer texts. This is because most modern use cases at a computer require you to write one or two sentences, like a chat message answer, short email answer, google search, youtube search and so on. Also, it's not very likely that you can think many sections ahead. It's more likely that you think for while, type, think and so on. If you are more into endurance typing of longer text, then I can recommend you [typelit](https://www.typelit.io/), where you can type entire books like Ulysses with over 1000 pages.
+Keebacy focuses on burst typing, rather than endurance typing of longer texts. This is because most modern use cases at a computer require you to write only a few word or sentences, like a chat message, short/medium emails, website formulas, forum posts, command line usage, google search, youtube search, captchas and so on. Also, it's unlikely that you can think many sections ahead, e.g. if you write a long email, thesis or book. It's more likely that you think for while, type, think, type and so on. If you are more into endurance typing of longer text (e.g. for transcription), then I can recommend you [typelit](https://www.typelit.io/), where you can type entire books like Ulysses with over 1000 pages.
 
 #### Q: What settings do you recommend?
 
-I would recommend to set the maximum amount of errors (Max. Error) setting to 5. This results in a minimum accuracy of at least 96% per sample.
+I would recommend you to define a maximum amount of errors (Max. Error) in the settings. Try to set the number of allowed errors as low as possible, but not so low that you are annoyed and have to retype every sample ten times. Do not set it to high, because if your accuracy is too low you won't improve much. Try out difference values, see how it affects your WPM and find a middle ground that slightly gets you out of your comfort zone. Always aim to stay in the 97% - 100% accuracy range, with a mindset of the higher the better.
 
 #### Q: Why do you offer only english and german?
 
