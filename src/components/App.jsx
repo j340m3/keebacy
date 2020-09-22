@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import Buttons from '../components/Buttons'
 import Settings from '../components/Settings'
 import Stats from '../components/StatsBar'
-import Hist from '../components/HistStats'
 import Typing from '../components/Typing'
 import TextInfo from './TextInfo'
 import { Mode } from '../constants'
@@ -33,7 +32,7 @@ class App extends React.Component {
                         </div>
                     )}
                 </div>
-                {mode !== Mode.settings && <Hist />}
+                {mode !== Mode.settings && <Stats histMode={true}/>}
                 <br />
             </div>
         )

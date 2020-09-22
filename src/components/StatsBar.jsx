@@ -1,6 +1,7 @@
 import produce from 'immer'
 import * as React from 'react'
 import { connect } from 'react-redux'
+import { sum, map, defaultTo } from 'lodash/fp'
 
 class StatsBar extends React.Component {
     state = {
@@ -10,6 +11,7 @@ class StatsBar extends React.Component {
         errors: '100',
         timer: null,
         finished: false,
+        history: [],
     }
 
     startTimer = () => {
@@ -39,6 +41,7 @@ class StatsBar extends React.Component {
 
         if (
             Number.isFinite(prevProps.pos) &&
+            prevProps.text[prevProps.pos] !== undefined &&
             prevProps.chars === prevProps.text[prevProps.pos].length - 1 &&
             chars === 0
         ) {
@@ -51,11 +54,15 @@ class StatsBar extends React.Component {
             )
             const { errorPercent } = this.props
 
+            let histArray = this.state.history
+            histArray.push({ wpm: wpm, errors: 100 - errorPercent })
+
             this.setState({
                 chars: prevProps.chars,
                 finished: true,
                 wpm: wpm,
                 errors: (100 - errorPercent).toFixed(1).replace(/[.,]0$/, ''),
+                history: histArray,
             })
             return
         }
@@ -91,6 +98,14 @@ class StatsBar extends React.Component {
         let accuarcy
 
         const err = parseInt(this.state.errors)
+
+        const histLen = this.state.history.length
+        const wpms = map('wpm', this.state.history)
+        const errors = map('errors', this.state.history)
+        const avgWpm = defaultTo(0)(sum(wpms) / histLen)
+        const avgErrors = defaultTo(0)(sum(errors) / histLen)
+        const show = histLen > 0
+
         if (this.state.wpm !== 0) {
             wpmspan = <span>{this.state.wpm} wpm&nbsp;</span>
             accuarcy = (
@@ -109,6 +124,31 @@ class StatsBar extends React.Component {
         } else {
             wpmspan = <span>&nbsp;</span>
             accuarcy = <span>&nbsp;</span>
+        }
+
+        if (this.props.histMode) {
+        return (
+            <div style={{ color: '#A0A0A0', fontSize: '1.2em' }}>
+                <div
+                    style={
+                        show
+                            ? {
+                                  borderTop: '1px solid #A0A0A0',
+                                  padding: 3,
+                                  width: 450,
+                              }
+                            : {}
+                    }
+                />
+                {show ? ' ' + avgWpm.toFixed(0) + ' wpm and ' : ''}
+                {show
+                    ? ' ' +
+                      avgErrors.toFixed(1).replace(/[.,]00$/, '') +
+                      '% accuarcy '
+                    : ''}
+                {show ? ' on average over ' + histLen + ' samples' : ''}
+            </div>
+        )
         }
 
         return (
