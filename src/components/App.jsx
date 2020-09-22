@@ -33,7 +33,6 @@ class App extends React.Component {
                         </div>
                     )}
                 </div>
-                <br />
                 {mode !== Mode.settings && <Hist />}
                 <br />
             </div>

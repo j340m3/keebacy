@@ -83,15 +83,27 @@ class HistStats extends React.Component {
         const errors = map('errors', this.state.history)
         const avgWpm = defaultTo(0)(sum(wpms) / histLen)
         const avgErrors = defaultTo(0)(sum(errors) / histLen)
+        const show = histLen > 0
         return (
             <div style={{ color: '#A0A0A0', fontSize: '1.2em' }}>
-                {histLen > 0 ? ' ' + avgWpm.toFixed(0) + ' wpm and ' : ''}
-                {histLen > 0
+                <div
+                    style={
+                        show
+                            ? {
+                                  borderTop: '1px solid #A0A0A0',
+                                  padding: 3,
+                                  width: 450,
+                              }
+                            : {}
+                    }
+                />
+                {show ? ' ' + avgWpm.toFixed(0) + ' wpm and ' : ''}
+                {show
                     ? ' ' +
                       avgErrors.toFixed(1).replace(/[.,]00$/, '') +
                       '% accuarcy '
                     : ''}
-                {histLen > 0 ? ' on average over ' + histLen + ' samples' : ''}
+                {show ? ' on average over ' + histLen + ' samples' : ''}
             </div>
         )
     }
