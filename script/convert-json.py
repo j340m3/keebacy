@@ -12,11 +12,12 @@ if __name__ == '__main__':
 
     dict = {}
     for item in quotes:
-        dict[item[3]] = {
-            'author': item[0],
-            'context': item[1],
-            'text': item[2]
-        }
+        if item[0] != "":
+            dict[item[3]] = {
+                'author': item[0],
+                'context': item[1],
+                'text': item[2]
+            }
 
     print(len(quotes))
     print(len(dict))
