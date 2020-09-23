@@ -53,6 +53,10 @@ Do not focus on speed. You will get faster as your accuracy increases, since acc
 
 Keebacy focuses on burst typing, rather than endurance typing of longer texts. This is because most modern use cases at a computer require you to write only a few word or sentences, like a chat message, short/medium emails, website formulas, forum posts, command line usage, google search, youtube search, captchas and so on. Also, it's unlikely that you can think many sections ahead, e.g. if you write a long email, thesis or book. It's more likely that you think for while, type, think, type and so on. If you are more into endurance typing of longer text (e.g. for transcription), then I can recommend you [typelit](https://www.typelit.io/), where you can type entire books like Ulysses with over 1000 pages.
 
+#### Q: Where's the dark mode?
+
+I will not add a dark mode (although pull requests are welcome), but I will make sure that keebacy works fine with the [Dark Reader](https://darkreader.org/) addon, since I use it myself. This addon offers a dark mode for any website, basically by inverting colors.
+
 #### Q: What settings do you recommend?
 
 I would recommend you to define a maximum amount of errors (Max. Error) in the settings. Try to set the number of allowed errors as low as possible, but not so low that you are annoyed and have to retype every sample ten times. Do not set it to high, because if your accuracy is too low you won't improve much. Try out difference values, see how it affects your WPM and find a middle ground that slightly gets you out of your comfort zone. Always aim to stay in the 97% - 100% accuracy range, with a mindset of the higher the better.
