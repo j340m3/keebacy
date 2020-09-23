@@ -10,7 +10,6 @@ class StatsBar extends React.Component {
         wpm: 0,
         errors: '100',
         timer: null,
-        finished: false,
         history: [],
     }
 
@@ -38,6 +37,8 @@ class StatsBar extends React.Component {
             return
         }
         const { chars, pos } = this.props
+        console.log(prevProps)
+        console.log(this.props)
 
         if (
             Number.isFinite(prevProps.pos) &&
@@ -46,6 +47,7 @@ class StatsBar extends React.Component {
             chars === 0
         ) {
             // if we finished a text
+            console.log('stop timer')
             this.stopTimer()
             const { chars, hundredths } = this.state
             const sec = hundredths / 100
@@ -59,7 +61,6 @@ class StatsBar extends React.Component {
 
             this.setState({
                 chars: prevProps.chars,
-                finished: true,
                 wpm: wpm,
                 errors: (100 - errorPercent).toFixed(1).replace(/[.,]0$/, ''),
                 history: histArray,
@@ -70,26 +71,23 @@ class StatsBar extends React.Component {
         if (prevProps.chars === 0 && chars === 1) {
             // if we are started typing a new text
             // first character typed => counter starts
+            console.log('start timer')
             this.startTimer()
             this.setState({
                 chars,
-                finished: false,
             })
         } else if (
+            prevProps.text[pos] !== undefined &&
             prevProps.chars !== prevProps.text[pos].length - 1 &&
             chars === 0
         ) {
             // if we skipped text (pressed tab)
+            console.log('stop timer')
             this.stopTimer()
-            this.setState({
-                chars,
-                finished: true,
-            })
+            this.setState({ chars })
         } else {
             // if we are in the middle of a text
-            this.setState({
-                chars,
-            })
+            this.setState({ chars })
         }
     }
 
@@ -127,28 +125,28 @@ class StatsBar extends React.Component {
         }
 
         if (this.props.histMode) {
-        return (
-            <div style={{ color: '#A0A0A0', fontSize: '1.2em' }}>
-                <div
-                    style={
-                        show
-                            ? {
-                                  borderTop: '1px solid #A0A0A0',
-                                  padding: 3,
-                                  width: 450,
-                              }
-                            : {}
-                    }
-                />
-                {show ? ' ' + avgWpm.toFixed(0) + ' wpm and ' : ''}
-                {show
-                    ? ' ' +
-                      avgErrors.toFixed(1).replace(/[.,]00$/, '') +
-                      '% accuarcy '
-                    : ''}
-                {show ? ' on average over ' + histLen + ' samples' : ''}
-            </div>
-        )
+            return (
+                <div style={{ color: '#A0A0A0', fontSize: '1.2em' }}>
+                    <div
+                        style={
+                            show
+                                ? {
+                                      borderTop: '1px solid #A0A0A0',
+                                      padding: 3,
+                                      width: 450,
+                                  }
+                                : {}
+                        }
+                    />
+                    {show ? ' ' + avgWpm.toFixed(0) + ' wpm and ' : ''}
+                    {show
+                        ? ' ' +
+                          avgErrors.toFixed(1).replace(/[.,]00$/, '') +
+                          '% accuarcy '
+                        : ''}
+                    {show ? ' on average over ' + histLen + ' samples' : ''}
+                </div>
+            )
         }
 
         return (

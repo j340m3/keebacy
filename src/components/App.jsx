@@ -22,7 +22,13 @@ class App extends React.Component {
                 <br />
                 {mode !== Mode.settings && <Stats />}
                 <br />
-                <div style={{ height: 150 }}>
+                <div
+                    style={{
+                        minHeight: 130,
+                        overflow: 'hidden',
+                        display: 'block',
+                    }}
+                >
                     {mode !== Mode.settings && <Typing keydown={keydown} />}
                     {mode === Mode.settings && <Settings />}
                     {author !== undefined && (
@@ -32,7 +38,8 @@ class App extends React.Component {
                         </div>
                     )}
                 </div>
-                {mode !== Mode.settings && <Stats histMode={true}/>}
+                <br />
+                {mode !== Mode.settings && <Stats histMode={true} />}
                 <br />
             </div>
         )
