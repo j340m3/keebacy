@@ -49,10 +49,10 @@ class StatsBar extends React.Component {
             // if we finished a text
             console.log('stop timer')
             this.stopTimer()
-            const { chars, hundredths } = this.state
+            const { hundredths } = this.state
             const sec = hundredths / 100
             const wpm = parseInt(
-                (sec === 0 ? 0 : chars / 5 / (sec / 60)).toFixed(0),
+                (sec === 0 ? 0 : prevProps.chars / 5 / (sec / 60)).toFixed(0),
             )
             const { errorPercent } = this.props
 
@@ -65,7 +65,6 @@ class StatsBar extends React.Component {
                 errors: (100 - errorPercent).toFixed(1).replace(/[.,]0$/, ''),
                 history: histArray,
             })
-            return
         }
 
         if (prevProps.chars === 0 && chars === 1) {

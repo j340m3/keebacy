@@ -157,6 +157,7 @@ class Typing extends React.Component {
                     } else {
                         newText(mode)
                         this.setState({ textCounter: 0 })
+                        changeTextPosition(0)
                     }
 
                     cursorPosition = 0
