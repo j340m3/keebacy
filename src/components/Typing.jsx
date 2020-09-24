@@ -168,7 +168,7 @@ class Typing extends React.Component {
                         })
                         changeTextPosition(this.state.textCounter + 1)
                     } else {
-                        newText(mode)
+                        newText(mode, text)
                         this.setState({ textCounter: 0 })
                         changeTextPosition(0)
                     }

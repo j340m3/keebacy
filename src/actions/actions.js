@@ -52,6 +52,7 @@ const getRandomWikiArticle = async () => {
 }
 
 export const newText = (mode, words) => {
+
     return async dispatch => {
 
         if (mode !== Mode.wiki) {

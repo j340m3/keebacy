@@ -64,7 +64,7 @@ class Buttons extends React.Component {
                     ref={ref6}
                     onClick={() => {
                         this.setState({ repeatedWordsMode: !repeatedWordsMode })
-                        ref4.current.blur()
+                        ref6.current.blur()
                     }}
                 >
                     {Mode.repeatedWords}
@@ -81,7 +81,7 @@ class Buttons extends React.Component {
                                 value={input}
                                 onChange={this.handleChange}
                             />
-                            <input type='submit' value='Submit' />
+                            <input type='submit' value='submit' style={{ fontSize: "1.00em", display: 'inline' }} />
                         </form>
                     </div>
                 )}

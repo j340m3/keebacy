@@ -135,9 +135,10 @@ export const newNumbers = () => {
 }
 
 export const newRepeated = words => {
-    const text = _.range(RANDOM_LENGTH)
-        .map(() => _.sample(words))
-        .join(' ')
+    const textArr = Array.isArray(words) ? words : words.split(" ")
+    const x = _.times(300, () => textArr.join(" "))
+    const y = _.flatten(_.map(x, i => i.split(" ")))
+    const text = _.shuffle((_.take(y, RANDOM_LENGTH))).join(" ")
     return {
         mode: Mode.repeatedWords,
         text: [text],
