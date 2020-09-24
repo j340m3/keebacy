@@ -36,19 +36,21 @@ class StatsBar extends React.Component {
         if (this.props === prevProps) {
             return
         }
-        const { chars, pos } = this.props
+        const { chars, pos, text } = this.props
+
         console.log(prevProps)
         console.log(this.props)
 
         if (
             Number.isFinite(prevProps.pos) &&
             prevProps.text[prevProps.pos] !== undefined &&
+            // previously have reached the end of the text
             prevProps.chars === prevProps.text[prevProps.pos].length - 1 &&
-            chars === 0
+            // and we are at the beginning of a
+            chars === 0 &&
+            // new text
+            prevProps.text[prevProps.pos] !== text[pos]
         ) {
-            // if we finished a text
-            console.log('stop timer')
-            this.stopTimer()
             const { hundredths } = this.state
             const sec = hundredths / 100
             const wpm = parseInt(
@@ -71,6 +73,7 @@ class StatsBar extends React.Component {
             // if we are started typing a new text
             // first character typed => counter starts
             console.log('start timer')
+            this.stopTimer()
             this.startTimer()
             this.setState({
                 chars,
