@@ -5,13 +5,8 @@ import { split } from 'sentence-splitter'
 
 import { Mode, PRINTABLE_CHARACTERS } from '../constants'
 
-export const newText = (mode, words) => {
-    return async dispatch => {
 
-        if (mode !== Mode.wiki) {
-            dispatch({ type: 'NEW_TEXT', payload: { mode, words } })
-            return
-        }
+const getRandomWikiArticle = async () => {
 
         const lang = defaultTo('en')(localStorage.getItem('language'))
         const wikiBaseURL = 'https://' + lang + '.wikipedia.org/w/api.php'
@@ -23,39 +18,52 @@ export const newText = (mode, words) => {
             '&grnnamespace=0' +
             '&prop=extracts' +
             '&exlimit=max' +
-            '&explaintext&exintro'
+            '&explaintext&exintro' +
+            '&origin=*'
 
-        try {
-            const wiki = await axios.get(
-                `https://api.allorigins.win/get?url=${encodeURIComponent(
-                    wikiURL,
-                )}`,
-            )
+            const wiki = await axios.get( wikiURL)
 
-            const content = JSON.parse(wiki.data.contents)
-            const firstKey = Object.keys(content.query.pages)[0]
-            const { extract, title } = content.query.pages[firstKey]
+            const firstKey = Object.keys(wiki.data.query.pages)[0]
+            const { extract, title } = wiki.data.query.pages[firstKey]
 
             console.log(extract)
 
             const wikiArticle = extract
-                .replace(
-                    /[^a-zA-Z0-9,.\/<>?;:\'"\[\]\\|~!@#$%^&*() ÜüÄäÖö\-ß]/g,
-                    '',
-                )
                 .replace('  ', ' ')
                 .replace(/(?!\w)\.(?=\w)/g, '. ')
-                .replace(/ *\([^)]*\) */g, '')
 
-            if (wikiArticle.includes('steht für:')) return newText(mode, words)
-            if (wikiArticle.includes('Vorlage:Infobox'))
-                return newText(mode, words)
-            if (wikiArticle === '') return newText(mode, words)
+            const exclusionKeywords = [
+                'bezeichnet:',
+                'steht für:',
+                'folgender Personen:',
+                'verschiedener Personen:',
+                'folgender Orte:',
+                'verschiedener Orte:',
+                'Vorlage:Infobox',
+            ]
 
+            // check if we have an acutal article or just a list of possible articles
+            if (exclusionKeywords.some(e => wikiArticle.includes(e))) {
+                return await getRandomWikiArticle()
+            }
+
+             return { wikiArticle, title }
+
+}
+
+export const newText = (mode, words) => {
+    return async dispatch => {
+
+        if (mode !== Mode.wiki) {
+            dispatch({ type: 'NEW_TEXT', payload: { mode, words } })
+            return
+        }
+
+        try {
+            const { wikiArticle, title } = await getRandomWikiArticle()
             const wikiSentences = split(wikiArticle)
                 .map(x => (x.type == 'Sentence' ? x.raw : null))
                 .filter(Boolean)
-
             const combine = text =>
                 flatten(
                     chunk(2, text).map(x =>

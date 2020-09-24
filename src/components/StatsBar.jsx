@@ -38,9 +38,6 @@ class StatsBar extends React.Component {
         }
         const { chars, pos, text } = this.props
 
-        console.log(prevProps)
-        console.log(this.props)
-
         if (
             Number.isFinite(prevProps.pos) &&
             prevProps.text[prevProps.pos] !== undefined &&
@@ -72,7 +69,6 @@ class StatsBar extends React.Component {
         if (prevProps.chars === 0 && chars === 1) {
             // if we are started typing a new text
             // first character typed => counter starts
-            console.log('start timer')
             this.stopTimer()
             this.startTimer()
             this.setState({
@@ -84,7 +80,6 @@ class StatsBar extends React.Component {
             chars === 0
         ) {
             // if we skipped text (pressed tab)
-            console.log('stop timer')
             this.stopTimer()
             this.setState({ chars })
         } else {

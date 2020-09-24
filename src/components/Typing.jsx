@@ -85,6 +85,19 @@ class Typing extends React.Component {
             this.setState({ text: text })
         }
 
+        while (
+            text[cursorPosition] &&
+            errorPosition === undefined &&
+            text[cursorPosition].match(
+                /[^a-zA-Z0-9,.\/<>?;:\'"\[\]\\|~!@#$%^&*() ÜüÄäÖö\-ß]/g,
+            )
+        ) {
+            cursorPosition += 1
+            if (text[cursorPosition] === " ") cursorPosition += 1
+            changeCharsTyped(_.defaultTo(errorPosition, cursorPosition))
+            this.setState({ cursorPosition: cursorPosition })
+        }
+
         if (
             prevProps.keydown.event &&
             text !== undefined &&
