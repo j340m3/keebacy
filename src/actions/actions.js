@@ -2,8 +2,7 @@ import { action } from 'typesafe-actions'
 import axios from 'axios'
 import { chunk, flatten, defaultTo } from 'lodash/fp'
 import { split } from 'sentence-splitter'
-
-import { Mode, PRINTABLE_CHARACTERS } from '../constants'
+import { MODE, EXCLUSION_KEYWORDS } from '../constants'
 
 const getRandomWikiArticle = async () => {
     const lang = defaultTo('en')(localStorage.getItem('language'))
@@ -28,24 +27,12 @@ const getRandomWikiArticle = async () => {
 
     const wikiArticle = extract
         .replace('  ', ' ')
+        .replace('–','-')
         .replace(/(?!\w)\.(?=\w)/g, '. ')
-
-    const exclusionKeywords = [
-        'bezeichnet:',
-        'steht für:',
-        'folgender Personen:',
-        'folgenden Personen:',
-        'verschiedener Personen:',
-        'folgender Orte:',
-        'verschiedener Orte:',
-        'Vorlage:Infobox',
-        'refer to:',
-        '(disambiguation)',
-    ]
 
     // check if we have an acutal article or just a list of possible articles
     if (
-        exclusionKeywords.some(
+        EXCLUSION_KEYWORDS.some(
             e => wikiArticle.includes(e) || title.includes(e),
         )
     ) {
@@ -57,7 +44,7 @@ const getRandomWikiArticle = async () => {
 
 export const newText = (mode, words) => {
     return async dispatch => {
-        if (mode !== Mode.wiki) {
+        if (mode !== MODE.WIKI) {
             dispatch({ type: 'NEW_TEXT', payload: { mode, words } })
             return
         }

@@ -7,10 +7,9 @@ import { split } from 'sentence-splitter'
 import Chance from 'chance'
 
 import {
-    Mode,
+    MODE,
     NUMBERS,
     NEW_TEXT,
-    PRINTABLE_CHARACTERS,
     RANDOM_LENGTH,
     SYMBOLS,
 } from '../constants'
@@ -36,7 +35,7 @@ export const newKafka = () => {
     return {
         author: "Franz Kafka",
         context: "Metamorphosis",
-        mode: Mode.quote,
+        mode: MODE.QUOTE,
         text: [_.sample(combinedQuotes)],
     }
 }
@@ -65,7 +64,7 @@ export const newQuote = () => {
     return {
         author,
         context,
-        mode: Mode.quote,
+        mode: MODE.QUOTE,
         text: combinedQuotes,
     }
 }
@@ -90,7 +89,7 @@ export const newWords = () => {
     ]
 
     return {
-        mode: Mode.words,
+        mode: MODE.WORDS,
         text: uniqWordSample,
     }
 }
@@ -99,18 +98,8 @@ export const newWiki = playload => {
     const { author, comments } = playload
     return {
         author: _.defaultTo(author, ''),
-        mode: Mode.wiki,
+        mode: MODE.WIKI,
         text: _.defaultTo(comments, ''),
-    }
-}
-
-export const newRandom = () => {
-    const text = _.range(RANDOM_LENGTH)
-        .map(() => _.sample(PRINTABLE_CHARACTERS))
-        .join('')
-    return {
-        mode: Mode.random,
-        text: [text],
     }
 }
 
@@ -119,7 +108,7 @@ export const newSymbols = () => {
         .map(() => _.sample(SYMBOLS))
         .join('')
     return {
-        mode: Mode.symbols,
+        mode: MODE.SYMBOLS,
         text: [text],
     }
 }
@@ -129,18 +118,18 @@ export const newNumbers = () => {
         .map(() => _.sample(NUMBERS))
         .join('')
     return {
-        mode: Mode.numbers,
+        mode: MODE.NUMBERS,
         text: [text],
     }
 }
 
-export const newRepeated = words => {
+export const newCustom = words => {
     const textArr = Array.isArray(words) ? words : words.split(" ")
     const x = _.times(300, () => textArr.join(" "))
     const y = _.flatten(_.map(x, i => i.split(" ")))
     const text = _.shuffle((_.take(y, RANDOM_LENGTH))).join(" ")
     return {
-        mode: Mode.repeatedWords,
+        mode: MODE.CUSTOM,
         text: [text],
     }
 }
@@ -153,24 +142,22 @@ export default (state = newQuote(), action) => {
                     ? state.mode
                     : action.payload.mode
             switch (mode) {
-                case Mode.quote:
+                case MODE.QUOTE:
                     return newQuote()
-                case Mode.words:
+                case MODE.WORDS:
                     return newWords()
-                case Mode.kafka:
+                case MODE.KAFKA:
                     return newKafka()
-                case Mode.wiki:
+                case MODE.WIKI:
                     return newWiki(action.payload)
-                case Mode.random:
-                    return newRandom()
-                case Mode.symbols:
+                case MODE.SYMBOLS:
                     return newSymbols()
-                case Mode.numbers:
+                case MODE.NUMBERS:
                     return newNumbers()
-                case Mode.settings:
-                    return { mode: Mode.settings }
-                case Mode.repeatedWords:
-                    return newRepeated(action.payload.words)
+                case MODE.SETTINGS:
+                    return { mode: MODE.SETTINGS }
+                case MODE.CUSTOM:
+                    return newCustom(action.payload.words)
                 default:
                     return state
             }

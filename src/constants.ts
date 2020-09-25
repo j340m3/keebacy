@@ -1,6 +1,9 @@
-export const PRINTABLE_CHARACTERS = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,./<>?;:\'"[]\\{}|~!@#$%^&*()-_=+ öäüßÖÄÜ'.split(
-    '',
-)
+import * as _ from 'lodash'
+
+export const CHARACTER_SETS = {
+    en: /[^a-zA-Z0-9,.\/<>?;:\'"\[\]\\|~!@#$%^&*() \-]/g,
+    de: /[^a-zA-Z0-9,.\/<>?;:\'"\[\]\\|~!@#$%^&*() ÜüÄäÖö\-ß]/g,
+}
 
 export const SYMBOLS = ',./<>?;:\'"[]\\{}|~!@#$%^&*()-_=+'.split('')
 export const NUMBERS = '0123456789'.split('')
@@ -8,16 +11,27 @@ export const RANDOM_LENGTH = 20
 
 export const NEW_TEXT = 'NEW_TEXT'
 
-export enum Mode {
-    quote = 'quote',
-    wiki = 'wiki',
-    kafka = 'kafka',
-    random = 'random',
-    symbols = 'symbols',
-    numbers = 'numbers',
-    words = 'words',
-    settings = 'settings',
-    repeatedWords = 'custom',
-}
+export const EXCLUSION_KEYWORDS = [
+    'bezeichnet:',
+    'steht für:',
+    'folgender Personen:',
+    'folgenden Personen:',
+    'verschiedener Personen:',
+    'folgender Orte:',
+    'verschiedener Orte:',
+    'Vorlage:Infobox',
+    'refer to:',
+    '(disambiguation)',
+]
 
-export const GITHUB_URL = 'https://github.com/madnight'
+export enum MODE {
+    QUOTE = 'QUOTE',
+    WIKI = 'WIKI',
+    KAFKA = 'KAFKA',
+    RANDOM = 'RANDOM',
+    SYMBOLS = 'SYMBOLS',
+    NUMBERS = 'NUMBERS',
+    WORDS = 'WORDS',
+    SETTINGS = 'SETTINGS',
+    CUSTOM = 'CUSTOM',
+}

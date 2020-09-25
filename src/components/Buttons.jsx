@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { newText } from '../actions/actions'
-import { Mode } from '../constants'
+import { MODE } from '../constants'
 
 class Buttons extends React.Component {
     state = {
@@ -15,7 +15,7 @@ class Buttons extends React.Component {
         ref7: React.createRef(),
         ref8: React.createRef(),
         ref9: React.createRef(),
-        repeatedWordsMode: false,
+        customMode: false,
     }
 
     handleChange = event => {
@@ -23,69 +23,67 @@ class Buttons extends React.Component {
     }
 
     handleSubmit = event => {
-        this.props.newText(Mode.repeatedWords, this.state.input.split(' '))
+        this.props.newText(MODE.CUSTOM, this.state.input.split(' '))
         event.preventDefault()
     }
 
     renderModeButton(ref, mode) {
         return (
             <button
-                style={{ fontSize: "1.1em" }}
+                style={{ fontSize: '1.1em' }}
                 ref={ref}
                 onClick={() => {
-                    this.setState({ repeatedWordsMode: false })
+                    this.setState({ customMode: false })
                     this.props.newText(mode)
                     ref.current.blur()
                 }}
             >
-                {mode}
+                {mode.toLowerCase()}
             </button>
         )
     }
 
     render() {
-        const {
-            input,
-            ref1,
-            ref2,
-            ref4,
-            ref6,
-            ref7,
-            ref8,
-            repeatedWordsMode,
-        } = this.state
+        const { input, ref1, ref2, ref6, ref7, ref8, customMode } = this.state
         return (
             <div>
-                {this.renderModeButton(ref1, Mode.quote)}
-                {this.renderModeButton(ref2, Mode.wiki)}
-                {this.renderModeButton(ref7, Mode.words)}
+                {this.renderModeButton(ref1, MODE.QUOTE)}
+                {this.renderModeButton(ref2, MODE.WIKI)}
+                {this.renderModeButton(ref7, MODE.WORDS)}
                 <button
-                    style={{ fontSize: "1.1em" }}
+                    style={{ fontSize: '1.1em' }}
                     ref={ref6}
                     onClick={() => {
-                        this.setState({ repeatedWordsMode: !repeatedWordsMode })
+                        this.setState({ customMode: !customMode })
                         ref6.current.blur()
                     }}
                 >
-                    {Mode.repeatedWords}
+                    {MODE.CUSTOM.toLowerCase()}
                 </button>
-                {repeatedWordsMode && (
-                    <div style={{ display: 'inline', fontSize: "1.1em" }}>
+                {customMode && (
+                    <div style={{ display: 'inline', fontSize: '1.1em' }}>
                         {' '}
                         <form
                             style={{ display: 'inline' }}
                             onSubmit={this.handleSubmit}
                         >
                             <input
-                                type='text'
+                                type="text"
                                 value={input}
                                 onChange={this.handleChange}
                             />
-                            <input type='submit' value='submit' style={{ fontSize: "1.00em", display: 'inline' }} />
+                            <input
+                                type="submit"
+                                value="submit"
+                                style={{
+                                    fontSize: '1.00em',
+                                    display: 'inline',
+                                }}
+                            />
                         </form>
                     </div>
                 )}
-                {this.renderModeButton(ref8, Mode.settings)}
+                {this.renderModeButton(ref8, MODE.SETTINGS)}
             </div>
         )
     }
@@ -99,4 +97,7 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(Buttons)
+export default connect(
+    null,
+    mapDispatchToProps,
+)(Buttons)

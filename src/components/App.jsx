@@ -7,9 +7,7 @@ import Settings from '../components/Settings'
 import Stats from '../components/StatsBar'
 import Typing from '../components/Typing'
 import TextInfo from './TextInfo'
-import { Mode } from '../constants'
-
-const M = window.M;
+import { MODE } from '../constants'
 
 @keydown(ALL_KEYS)
 class App extends React.Component {
@@ -20,7 +18,7 @@ class App extends React.Component {
             <div>
                 <Buttons />
                 <br />
-                {mode !== Mode.settings && <Stats />}
+                {mode !== MODE.SETTINGS && <Stats />}
                 <br />
                 <div
                     style={{
@@ -29,8 +27,8 @@ class App extends React.Component {
                         display: 'block',
                     }}
                 >
-                    {mode !== Mode.settings && <Typing keydown={keydown} />}
-                    {mode === Mode.settings && <Settings />}
+                    {mode !== MODE.SETTINGS && <Typing keydown={keydown} />}
+                    {mode === MODE.SETTINGS && <Settings />}
                     {author !== undefined && (
                         <div>
                             <br />
@@ -39,7 +37,7 @@ class App extends React.Component {
                     )}
                 </div>
                 <br />
-                {mode !== Mode.settings && <Stats histMode={true} />}
+                {mode !== MODE.SETTINGS && <Stats histMode={true} />}
                 <br />
             </div>
         )

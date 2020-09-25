@@ -1,5 +1,6 @@
 import * as React from 'react'
 import * as _ from 'lodash'
+import { defaultTo } from 'lodash/fp'
 import { connect } from 'react-redux'
 import {
     changeCharsTyped,
@@ -7,7 +8,7 @@ import {
     changeTextPosition,
     newText,
 } from '../actions/actions'
-import { PRINTABLE_CHARACTERS } from '../constants'
+import { CHARACTER_SETS } from '../constants'
 
 const TYPED_COLOR = '#A0A0A0'
 const CURSOR_COLOR = '#BEBEBE'
@@ -76,6 +77,9 @@ class Typing extends React.Component {
             changeErrorPercent,
             changeTextPosition,
         } = this.props
+
+        if (this.props.text === undefined) return
+
         let text = this.props.text[this.state.textCounter]
         let { cursorPosition, errorPosition, errorSum } = this.state
         const { keydown } = prevProps
@@ -85,16 +89,16 @@ class Typing extends React.Component {
             this.setState({ text: text })
         }
 
+        const lang = defaultTo('en')(localStorage.getItem('language'))
+
         while (
             text &&
             text[cursorPosition] &&
             errorPosition === undefined &&
-            text[cursorPosition].match(
-                /[^a-zA-Z0-9,.\/<>?;:\'"\[\]\\|~!@#$%^&*() ÜüÄäÖö\-ß]/g,
-            )
+            text[cursorPosition].match(CHARACTER_SETS[lang])
         ) {
             cursorPosition += 1
-            if (text[cursorPosition] === " ") cursorPosition += 1
+            if (text[cursorPosition] === ' ') cursorPosition += 1
             changeCharsTyped(_.defaultTo(errorPosition, cursorPosition))
             this.setState({ cursorPosition: cursorPosition })
         }
@@ -105,7 +109,10 @@ class Typing extends React.Component {
             !this.state.block
         ) {
             if (
-                PRINTABLE_CHARACTERS.includes(keydown.event.key) ||
+                // exclude Backspace and the like
+                (keydown.event.key.length === 1
+                    ? !keydown.event.key.match(CHARACTER_SETS[lang])
+                    : false) ||
                 keydown.event.key === 'Tab' ||
                 keydown.event.key === 'Escape'
             ) {
