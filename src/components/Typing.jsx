@@ -86,6 +86,7 @@ class Typing extends React.Component {
         }
 
         while (
+            text &&
             text[cursorPosition] &&
             errorPosition === undefined &&
             text[cursorPosition].match(
