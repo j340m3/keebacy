@@ -1,12 +1,13 @@
 import { action } from 'typesafe-actions'
 import axios from 'axios'
-import { chunk, flatten, defaultTo } from 'lodash/fp'
+import { chunk, flatten, defaultTo, sample } from 'lodash/fp'
 import { split } from 'sentence-splitter'
 import { MODE, EXCLUSION_KEYWORDS } from '../constants'
 
 const getRandomWikiArticle = async () => {
     const lang = defaultTo('en')(localStorage.getItem('language'))
-    const wikiBaseURL = 'https://' + lang + '.wikipedia.org/w/api.php'
+    const wikiLang = lang === 'en' ? sample(['en', 'simple']) : lang
+    const wikiBaseURL = 'https://' + wikiLang + '.wikipedia.org/w/api.php'
     const wikiURL =
         wikiBaseURL +
         '?format=json' +
@@ -27,8 +28,8 @@ const getRandomWikiArticle = async () => {
 
     const wikiArticle = extract
         .replace('  ', ' ')
-        .replace('–','-')
-        .replace('—','-')
+        .replace('–', '-')
+        .replace('—', '-')
         .replace(/(?!\w)\.(?=\w)/g, '. ')
 
     // check if we have an acutal article or just a list of possible articles
