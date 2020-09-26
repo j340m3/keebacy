@@ -24,14 +24,14 @@ export const EXCLUSION_KEYWORDS = [
     '(disambiguation)',
 ]
 
-export enum MODE {
-    QUOTE = 'QUOTE',
-    WIKI = 'WIKI',
-    KAFKA = 'KAFKA',
-    RANDOM = 'RANDOM',
-    SYMBOLS = 'SYMBOLS',
-    NUMBERS = 'NUMBERS',
-    WORDS = 'WORDS',
-    SETTINGS = 'SETTINGS',
-    CUSTOM = 'CUSTOM',
+export const MODE = {
+    QUOTE: 'QUOTE',
+    WIKI: 'WIKI',
+    KAFKA: 'KAFKA',
+    RANDOM: 'RANDOM',
+    SYMBOLS: 'SYMBOLS',
+    NUMBERS: 'NUMBERS',
+    WORDS: 'WORDS',
+    SETTINGS: 'SETTINGS',
+    CUSTOM: 'CUSTOM',
 }
