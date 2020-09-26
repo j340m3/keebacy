@@ -2,7 +2,7 @@ import { action } from 'typesafe-actions'
 import axios from 'axios'
 import { chunk, flatten, defaultTo, sample } from 'lodash/fp'
 import { split } from 'sentence-splitter'
-import { MODE, EXCLUSION_KEYWORDS } from '../constants'
+import { MODE, EXCLUSION_KEYWORDS, NEW_TEXT } from '../constants'
 
 const getRandomWikiArticle = async () => {
     const lang = defaultTo('en')(localStorage.getItem('language'))
@@ -45,7 +45,7 @@ const getRandomWikiArticle = async () => {
 export const newText = (mode, words) => {
     return async dispatch => {
         if (mode !== MODE.WIKI) {
-            dispatch({ type: 'NEW_TEXT', payload: { mode, words } })
+            dispatch({ type: NEW_TEXT, payload: { mode, words } })
             return
         }
 

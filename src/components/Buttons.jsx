@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { newText } from '../actions/actions'
+import { newText, changeTextPosition } from '../actions/actions'
 import { MODE } from '../constants'
 import { defaultTo } from 'lodash/fp'
 
@@ -18,6 +18,7 @@ class Buttons extends React.Component {
     handleSubmit = event => {
         localStorage.setItem('shuffle', this.refs.shuffle.checked)
         this.props.newText(MODE.CUSTOM, this.state.input.split(' '))
+        this.props.changeTextPosition(0)
         this.setState({ showInput: false })
         event.preventDefault()
     }
@@ -29,6 +30,7 @@ class Buttons extends React.Component {
                 onClick={() => {
                     this.setState({ customMode: false })
                     this.props.newText(mode)
+                    this.props.changeTextPosition(0)
                 }}
             >
                 {mode.toLowerCase()}
@@ -51,6 +53,7 @@ class Buttons extends React.Component {
                             customMode: true,
                             showInput: true,
                         })
+                     this.props.changeTextPosition(0)
                     }}
                 >
                     {MODE.CUSTOM.toLowerCase()}
@@ -109,6 +112,9 @@ const mapDispatchToProps = dispatch => {
     return {
         newText: (mode, words) => {
             dispatch(newText(mode, words))
+        },
+        changeTextPosition: pos => {
+            dispatch(changeTextPosition(pos))
         },
     }
 }

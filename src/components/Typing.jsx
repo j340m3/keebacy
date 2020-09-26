@@ -20,7 +20,6 @@ class Typing extends React.Component {
         cursorPosition: 0,
         errorPosition: undefined,
         errorSum: 0,
-        textCounter: 0,
         text: '',
         block: false,
     }
@@ -30,7 +29,7 @@ class Typing extends React.Component {
     }
 
     handleDeletion(cursorPosition, errorPosition, keydown) {
-        let text = this.props.text[this.state.textCounter]
+        let text = this.props.text[this.props.pos]
         if (cursorPosition > 0) {
             const newItems = [...this.state.text]
             newItems.splice(cursorPosition, 1)
@@ -80,13 +79,19 @@ class Typing extends React.Component {
 
         if (this.props.text === undefined) return
 
-        let text = this.props.text[this.state.textCounter]
         let { cursorPosition, errorPosition, errorSum } = this.state
+        const { pos } = this.props
         const { keydown } = prevProps
+        let text = this.props.text[pos]
 
-        // synchronize state with props if no error
+        // synchronize state with props
         if (this.state.text !== text) {
             this.setState({ text: text })
+        }
+
+        // reset cursor position on new text
+        if (this.props.text !== prevProps.text) {
+            this.setState({ cursorPosition: 0 })
         }
 
         const lang = defaultTo('en')(localStorage.getItem('language'))
@@ -167,17 +172,13 @@ class Typing extends React.Component {
                     keydown.event.key === 'Tab'
                 ) {
                     if (
-                        this.props.text.length > this.state.textCounter + 1 &&
+                        this.props.text.length > pos + 1 &&
                         keydown.event.key !== 'Tab'
                     ) {
-                        text = this.props.text[this.state.textCounter]
-                        this.setState({
-                            textCounter: this.state.textCounter + 1,
-                        })
-                        changeTextPosition(this.state.textCounter + 1)
+                        text = this.props.text[pos]
+                        changeTextPosition(pos + 1)
                     } else {
                         newText(mode, this.props.text)
-                        this.setState({ textCounter: 0 })
                         changeTextPosition(0)
                     }
 
@@ -236,6 +237,7 @@ const matchStateToProps = state => {
     return {
         text: state.textData.text,
         mode: state.textData.mode,
+        pos: state.typingData.textPosition,
     }
 }
 
