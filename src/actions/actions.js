@@ -28,6 +28,7 @@ const getRandomWikiArticle = async () => {
     const wikiArticle = extract
         .replace('  ', ' ')
         .replace('–','-')
+        .replace('—','-')
         .replace(/(?!\w)\.(?=\w)/g, '. ')
 
     // check if we have an acutal article or just a list of possible articles

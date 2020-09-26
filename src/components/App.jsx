@@ -14,11 +14,33 @@ class App extends React.Component {
     render() {
         // tslint:disable-next-line:no-shadowed-variable
         const { author, keydown, mode } = this.props
+
+        if (mode === MODE.SETTINGS) {
+            return (
+                <div>
+                    <Buttons />
+                    <br />
+                    <br />
+                    <div
+                        style={{
+                            minHeight: 130,
+                            overflow: 'hidden',
+                            display: 'block',
+                        }}
+                    >
+                        <Settings />
+                    </div>
+                    <br />
+                    <br />
+                </div>
+            )
+        }
+
         return (
             <div>
                 <Buttons />
                 <br />
-                {mode !== MODE.SETTINGS && <Stats />}
+                <Stats />
                 <br />
                 <div
                     style={{
@@ -27,8 +49,7 @@ class App extends React.Component {
                         display: 'block',
                     }}
                 >
-                    {mode !== MODE.SETTINGS && <Typing keydown={keydown} />}
-                    {mode === MODE.SETTINGS && <Settings />}
+                    <Typing keydown={keydown} />
                     {author !== undefined && (
                         <div>
                             <br />
@@ -37,7 +58,7 @@ class App extends React.Component {
                     )}
                 </div>
                 <br />
-                {mode !== MODE.SETTINGS && <Stats histMode={true} />}
+                <Stats histMode={true} />
                 <br />
             </div>
         )

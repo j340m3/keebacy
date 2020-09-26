@@ -85,7 +85,7 @@ class Typing extends React.Component {
         const { keydown } = prevProps
 
         // synchronize state with props if no error
-        if (this.state.text !== text && errorPosition === undefined) {
+        if (this.state.text !== text) {
             this.setState({ text: text })
         }
 
@@ -176,7 +176,7 @@ class Typing extends React.Component {
                         })
                         changeTextPosition(this.state.textCounter + 1)
                     } else {
-                        newText(mode, text)
+                        newText(mode, this.props.text)
                         this.setState({ textCounter: 0 })
                         changeTextPosition(0)
                     }

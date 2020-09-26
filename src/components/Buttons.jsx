@@ -2,20 +2,13 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { newText } from '../actions/actions'
 import { MODE } from '../constants'
+import { defaultTo } from 'lodash/fp'
 
 class Buttons extends React.Component {
     state = {
         input: '',
-        ref1: React.createRef(),
-        ref2: React.createRef(),
-        ref3: React.createRef(),
-        ref4: React.createRef(),
-        ref5: React.createRef(),
-        ref6: React.createRef(),
-        ref7: React.createRef(),
-        ref8: React.createRef(),
-        ref9: React.createRef(),
         customMode: false,
+        showInput: true,
     }
 
     handleChange = event => {
@@ -23,19 +16,19 @@ class Buttons extends React.Component {
     }
 
     handleSubmit = event => {
+        localStorage.setItem('shuffle', this.refs.shuffle.checked)
         this.props.newText(MODE.CUSTOM, this.state.input.split(' '))
+        this.setState({ showInput: false })
         event.preventDefault()
     }
 
-    renderModeButton(ref, mode) {
+    renderModeButton(mode) {
         return (
             <button
                 style={{ fontSize: '1.1em' }}
-                ref={ref}
                 onClick={() => {
                     this.setState({ customMode: false })
                     this.props.newText(mode)
-                    ref.current.blur()
                 }}
             >
                 {mode.toLowerCase()}
@@ -44,46 +37,70 @@ class Buttons extends React.Component {
     }
 
     render() {
-        const { input, ref1, ref2, ref6, ref7, ref8, customMode } = this.state
+        const { input, customMode } = this.state
         return (
             <div>
-                {this.renderModeButton(ref1, MODE.QUOTE)}
-                {this.renderModeButton(ref2, MODE.WIKI)}
-                {this.renderModeButton(ref7, MODE.WORDS)}
+                {this.renderModeButton(MODE.QUOTE)}
+                {this.renderModeButton(MODE.WIKI)}
+                {this.renderModeButton(MODE.WORDS)}
                 <button
                     style={{ fontSize: '1.1em' }}
-                    ref={ref6}
                     onClick={() => {
-                        this.setState({ customMode: !customMode })
-                        ref6.current.blur()
+                        this.props.newText(MODE.CUSTOM, "")
+                        this.setState({
+                            customMode: true,
+                            showInput: true,
+                        })
                     }}
                 >
                     {MODE.CUSTOM.toLowerCase()}
                 </button>
-                {customMode && (
-                    <div style={{ display: 'inline', fontSize: '1.1em' }}>
-                        {' '}
-                        <form
-                            style={{ display: 'inline' }}
-                            onSubmit={this.handleSubmit}
-                        >
-                            <input
-                                type="text"
-                                value={input}
-                                onChange={this.handleChange}
-                            />
-                            <input
-                                type="submit"
-                                value="submit"
-                                style={{
-                                    fontSize: '1.00em',
-                                    display: 'inline',
-                                }}
-                            />
-                        </form>
-                    </div>
-                )}
-                {this.renderModeButton(ref8, MODE.SETTINGS)}
+                {this.renderModeButton(MODE.SETTINGS)}
+                {customMode &&
+                    this.state.showInput && (
+                        <div style={{ display: 'inline', fontSize: '1.1em' }}>
+                            <br />
+                            <form
+                                style={{ display: 'inline' }}
+                                onSubmit={this.handleSubmit}
+                            >
+                                <br />
+                                <textarea
+                                    rows="20"
+                                    cols="80"
+                                    type="text"
+                                    value={input}
+                                    style={{
+                                        fontSize: '1.00em',
+                                        display: 'inline',
+                                    }}
+                                    onChange={this.handleChange}
+                                />{' '}
+                                <br />
+                                <input
+                                    type="submit"
+                                    value="submit"
+                                    style={{
+                                        fontSize: '1.00em',
+                                        display: 'inline',
+                                    }}
+                                />
+                                <input
+                                    type="checkbox"
+                                    defaultChecked={
+                                        defaultTo(
+                                            'false',
+                                            localStorage.getItem('shuffle'),
+                                        ) === 'true'
+                                    }
+                                    ref="shuffle"
+                                    id="shuffle"
+                                    name="shuffle"
+                                />
+                                <label htmlFor="shuffle"> shuffle words</label>
+                            </form>
+                        </div>
+                    )}
             </div>
         )
     }

@@ -1,66 +1,44 @@
 import * as _ from 'lodash'
-
-import { chunk, flatten, defaultTo } from 'lodash/fp'
-
+import { chunk, defaultTo, flatten, shuffle, pipe, map } from 'lodash/fp'
 import { split } from 'sentence-splitter'
-
 import Chance from 'chance'
-
-import {
-    MODE,
-    NUMBERS,
-    NEW_TEXT,
-    RANDOM_LENGTH,
-    SYMBOLS,
-} from '../constants'
+import { MODE, NUMBERS, NEW_TEXT, RANDOM_LENGTH, SYMBOLS } from '../constants'
 
 const chance = new Chance()
 
-export const newKafka = () => {
+const splitter = text =>
+    split(text)
+        .map(x => (x.type === 'Sentence' ? x.raw : null))
+        .filter(Boolean)
 
-    const quotes = require('../static/books/kafka.json')
-
-    const splitter = text =>
-        split(text)
-            .map(x => (x.type === 'Sentence' ? x.raw : null))
-            .filter(Boolean)
-    const quote = splitter(quotes.join(" ").replace("  ", " "))
-    const combinedQuotes = flatten(
-        chunk(2, quote).map(x =>
-            x.length === 2 && x[0].length + x[1].length < 120
-                ? [x[0] + ' ' + x[1]]
-                : x,
+const recombine = text =>
+    flatten(
+        chunk(2, text).map(
+            x =>
+                x.length === 2 && x[0].length + x[1].length < 120
+                    ? [x[0] + ' ' + x[1]]
+                    : x,
         ),
     )
+
+export const newKafka = () => {
+    const quotes = require('../static/books/kafka.json')
+    const quote = splitter(quotes.join(' ').replace('  ', ' '))
+    const combinedQuotes = recombine(quote)
     return {
-        author: "Franz Kafka",
-        context: "Metamorphosis",
+        author: 'Franz Kafka',
+        context: 'Metamorphosis',
         mode: MODE.QUOTE,
         text: [_.sample(combinedQuotes)],
     }
 }
 
-
-
 export const newQuote = () => {
-
     const lang = defaultTo('en')(localStorage.getItem('language'))
     const quotes = require('../static/quotes/lang_' + lang + '.json')
 
     const { author, context, text } = _.sample(quotes)
-
-    const splitter = text =>
-        split(text)
-            .map(x => (x.type === 'Sentence' ? x.raw : null))
-            .filter(Boolean)
-    const quote = splitter(text)
-    const combinedQuotes = flatten(
-        chunk(2, quote).map(x =>
-            x.length === 2 && x[0].length + x[1].length < 120
-                ? [x[0] + ' ' + x[1]]
-                : x,
-        ),
-    )
+    const combinedQuotes = recombine(splitter(text))
     return {
         author,
         context,
@@ -73,6 +51,7 @@ export const newWords = () => {
     const lang = defaultTo('en')(localStorage.getItem('language'))
     const words = require('../static/words/' + lang + '.json')
     const wordList = words.words.slice(0, 2800)
+
     // Uses the New General Service List (NGSL) which covers 90% of general
     // written english texts. The first 200 words (covering more than 50%) are
     // weighted much higher than the remaining 2600 words.
@@ -124,13 +103,35 @@ export const newNumbers = () => {
 }
 
 export const newCustom = words => {
-    const textArr = Array.isArray(words) ? words : words.split(" ")
-    const x = _.times(300, () => textArr.join(" "))
-    const y = _.flatten(_.map(x, i => i.split(" ")))
-    const text = _.shuffle((_.take(y, RANDOM_LENGTH))).join(" ")
+    const textArr = Array.isArray(words) ? words : words.split(' ')
+    const shuffleIsSet = defaultTo('false', localStorage.getItem('shuffle'))
+
+    if (shuffleIsSet === 'false') {
+        const chunkTextArray = pipe(
+            splitter,
+            recombine,
+            map(x => chunk(60, x.split(' '))),
+            flatten,
+            map(x => x.join(' ')),
+        )(textArr.join(' '))
+
+        return {
+            mode: MODE.CUSTOM,
+            text: chunkTextArray,
+        }
+    }
+
+    const text = pipe(
+        map(i => i.split(' ')),
+        flatten,
+        chunk(RANDOM_LENGTH),
+        map(shuffle),
+        map(i => i.join(' ')),
+    )(textArr)
+
     return {
         mode: MODE.CUSTOM,
-        text: [text],
+        text: text,
     }
 }
 
