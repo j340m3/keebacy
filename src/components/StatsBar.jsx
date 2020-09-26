@@ -107,7 +107,7 @@ class StatsBar extends React.Component {
                 <span
                     style={
                         err > 96
-                            ? { color: '#48A868' }
+                            ? { color: '#2EA44F' }
                             : err > 93
                             ? { color: '#E1AD01' }
                             : { color: 'red' }
