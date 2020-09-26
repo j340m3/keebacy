@@ -27,6 +27,7 @@ class Buttons extends React.Component {
         return (
             <button
                 style={{ fontSize: '1.1em' }}
+                onMouseDown={e => e.preventDefault()}
                 onClick={() => {
                     this.setState({ customMode: false })
                     this.props.newText(mode)
@@ -47,13 +48,14 @@ class Buttons extends React.Component {
                 {this.renderModeButton(MODE.WORDS)}
                 <button
                     style={{ fontSize: '1.1em' }}
+                    onMouseDown={e => e.preventDefault()}
                     onClick={() => {
                         this.props.newText(MODE.CUSTOM, '')
                         this.setState({
                             customMode: true,
                             showInput: true,
                         })
-                     this.props.changeTextPosition(0)
+                        this.props.changeTextPosition(0)
                     }}
                 >
                     {MODE.CUSTOM.toLowerCase()}
