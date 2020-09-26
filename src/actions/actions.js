@@ -24,8 +24,6 @@ const getRandomWikiArticle = async () => {
     const firstKey = Object.keys(wiki.data.query.pages)[0]
     const { extract, title } = wiki.data.query.pages[firstKey]
 
-    console.log(extract)
-
     const wikiArticle = extract
         .replace('  ', ' ')
         .replace('–', '-')
@@ -54,15 +52,14 @@ export const newText = (mode, words) => {
         try {
             const { wikiArticle, title } = await getRandomWikiArticle()
             const wikiSentences = split(wikiArticle)
-                .map(x => (x.type == 'Sentence' ? x.raw : null))
+                .map(x => (x.type === 'Sentence' ? x.raw : null))
                 .filter(Boolean)
             const combine = text =>
                 flatten(
-                    chunk(2, text).map(
-                        x =>
-                            x.length === 2 && x[0].length + x[1].length < 180
-                                ? [x[0] + ' ' + x[1]]
-                                : x,
+                    chunk(2, text).map(x =>
+                        x.length === 2 && x[0].length + x[1].length < 180
+                            ? [x[0] + ' ' + x[1]]
+                            : x,
                     ),
                 )
 

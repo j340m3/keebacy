@@ -45,8 +45,8 @@ class Typing extends React.Component {
                         errPos === undefined
                             ? undefined
                             : cursorPos > errPos
-                                ? errPos
-                                : undefined,
+                            ? errPos
+                            : undefined,
                 })
             }
 
@@ -257,7 +257,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(
-    matchStateToProps,
-    mapDispatchToProps,
-)(Typing)
+export default connect(matchStateToProps, mapDispatchToProps)(Typing)

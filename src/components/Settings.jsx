@@ -1,38 +1,37 @@
 import * as React from 'react'
-import { connect } from 'react-redux'
 
 class Settings extends React.Component {
     render() {
         return (
             <div>
                 <label
-                    for="lang"
+                    for='lang'
                     style={{ display: 'inline-block', width: 110 }}
                 >
                     Language:{' '}
                 </label>
                 <select
-                    name="lang"
-                    id="lang"
+                    name='lang'
+                    id='lang'
                     style={{ display: 'inline-block', width: 80 }}
                     onChange={e =>
                         localStorage.setItem('language', e.target.value)
                     }
                     defaultValue={localStorage.getItem('language')}
                 >
-                    <option value="en">English</option>
-                    <option value="de">German</option>
+                    <option value='en'>English</option>
+                    <option value='de'>German</option>
                 </select>
                 <br />
                 <label
-                    for="lang"
+                    for='lang'
                     style={{ display: 'inline-block', width: 110 }}
                 >
                     Max. Errors:{' '}
                 </label>
                 <select
-                    name="lang"
-                    id="lang"
+                    name='lang'
+                    id='lang'
                     style={{ display: 'inline-block', width: 80 }}
                     onChange={e =>
                         localStorage.setItem('maxError', e.target.value)
@@ -55,7 +54,7 @@ class Settings extends React.Component {
                 If you have any questions, suggestions or want to find out
                 <br />
                 more about this project visit the project website on{' '}
-                <a href="https://github.com/madnight/keebacy#faq">GitHub</a>.
+                <a href='https://github.com/madnight/keebacy#faq'>GitHub</a>.
             </div>
         )
     }

@@ -12,7 +12,6 @@ import { MODE } from '../constants'
 @keydown(ALL_KEYS)
 class App extends React.Component {
     render() {
-        // tslint:disable-next-line:no-shadowed-variable
         const { author, keydown, mode } = this.props
 
         if (mode === MODE.SETTINGS) {

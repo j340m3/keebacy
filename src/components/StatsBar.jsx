@@ -99,7 +99,7 @@ class StatsBar extends React.Component {
         const errors = map('errors', this.state.history)
         const avgWpm = defaultTo(0)(sum(wpms) / histLen)
         const avgErrors = defaultTo(0)(sum(errors) / histLen)
-        const show = histLen > 0
+        const show = histLen > 4
 
         if (this.state.wpm !== 0) {
             wpmspan = <span>{this.state.wpm} wpm&nbsp;</span>
@@ -109,8 +109,8 @@ class StatsBar extends React.Component {
                         err > 96
                             ? { color: 'green' }
                             : err > 93
-                                ? { color: '#E1AD01' }
-                                : { color: 'red' }
+                            ? { color: '#E1AD01' }
+                            : { color: 'red' }
                     }
                 >
                     {this.state.errors}% accuarcy

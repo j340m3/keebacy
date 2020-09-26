@@ -5,7 +5,7 @@ class TextInfo extends React.Component {
     render() {
         const { author, context } = this.props
         return (
-            <div style={{ fontSize: "1.2em" }}>
+            <div style={{ fontSize: '1.2em' }}>
                 -{author}
                 {context ? ', ' + context : ''}
             </div>

@@ -46,7 +46,7 @@ class Buttons extends React.Component {
                 <button
                     style={{ fontSize: '1.1em' }}
                     onClick={() => {
-                        this.props.newText(MODE.CUSTOM, "")
+                        this.props.newText(MODE.CUSTOM, '')
                         this.setState({
                             customMode: true,
                             showInput: true,
@@ -56,51 +56,50 @@ class Buttons extends React.Component {
                     {MODE.CUSTOM.toLowerCase()}
                 </button>
                 {this.renderModeButton(MODE.SETTINGS)}
-                {customMode &&
-                    this.state.showInput && (
-                        <div style={{ display: 'inline', fontSize: '1.1em' }}>
+                {customMode && this.state.showInput && (
+                    <div style={{ display: 'inline', fontSize: '1.1em' }}>
+                        <br />
+                        <form
+                            style={{ display: 'inline' }}
+                            onSubmit={this.handleSubmit}
+                        >
                             <br />
-                            <form
-                                style={{ display: 'inline' }}
-                                onSubmit={this.handleSubmit}
-                            >
-                                <br />
-                                <textarea
-                                    rows="20"
-                                    cols="80"
-                                    type="text"
-                                    value={input}
-                                    style={{
-                                        fontSize: '1.00em',
-                                        display: 'inline',
-                                    }}
-                                    onChange={this.handleChange}
-                                />{' '}
-                                <br />
-                                <input
-                                    type="submit"
-                                    value="submit"
-                                    style={{
-                                        fontSize: '1.00em',
-                                        display: 'inline',
-                                    }}
-                                />
-                                <input
-                                    type="checkbox"
-                                    defaultChecked={
-                                        defaultTo(
-                                            'false',
-                                            localStorage.getItem('shuffle'),
-                                        ) === 'true'
-                                    }
-                                    ref="shuffle"
-                                    id="shuffle"
-                                    name="shuffle"
-                                />
-                                <label htmlFor="shuffle"> shuffle words</label>
-                            </form>
-                        </div>
-                    )}
+                            <textarea
+                                rows='20'
+                                cols='80'
+                                type='text'
+                                value={input}
+                                style={{
+                                    fontSize: '1.00em',
+                                    display: 'inline',
+                                }}
+                                onChange={this.handleChange}
+                            />{' '}
+                            <br />
+                            <input
+                                type='submit'
+                                value='submit'
+                                style={{
+                                    fontSize: '1.00em',
+                                    display: 'inline',
+                                }}
+                            />
+                            <input
+                                type='checkbox'
+                                defaultChecked={
+                                    defaultTo(
+                                        'false',
+                                        localStorage.getItem('shuffle'),
+                                    ) === 'true'
+                                }
+                                ref='shuffle'
+                                id='shuffle'
+                                name='shuffle'
+                            />
+                            <label htmlFor='shuffle'> shuffle words</label>
+                        </form>
+                    </div>
+                )}
             </div>
         )
     }
@@ -114,7 +113,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(
-    null,
-    mapDispatchToProps,
-)(Buttons)
+export default connect(null, mapDispatchToProps)(Buttons)

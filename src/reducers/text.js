@@ -13,11 +13,10 @@ const splitter = text =>
 
 const recombine = text =>
     flatten(
-        chunk(2, text).map(
-            x =>
-                x.length === 2 && x[0].length + x[1].length < 120
-                    ? [x[0] + ' ' + x[1]]
-                    : x,
+        chunk(2, text).map(x =>
+            x.length === 2 && x[0].length + x[1].length < 120
+                ? [x[0] + ' ' + x[1]]
+                : x,
         ),
     )
 
