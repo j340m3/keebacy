@@ -1,11 +1,11 @@
 {
-  "main.js": "/wpm-spa/static/js/main.6d15387d.chunk.js",
-  "main.js.map": "/wpm-spa/static/js/main.6d15387d.chunk.js.map",
-  "static/js/1.bcb49e10.chunk.js": "/wpm-spa/static/js/1.bcb49e10.chunk.js",
-  "static/js/1.bcb49e10.chunk.js.map": "/wpm-spa/static/js/1.bcb49e10.chunk.js.map",
-  "runtime~main.js": "/wpm-spa/static/js/runtime~main.0ef47870.js",
-  "runtime~main.js.map": "/wpm-spa/static/js/runtime~main.0ef47870.js.map",
-  "index.html": "/wpm-spa/index.html",
-  "precache-manifest.316af69689da0622fdf425c6ef689d67.js": "/wpm-spa/precache-manifest.316af69689da0622fdf425c6ef689d67.js",
-  "service-worker.js": "/wpm-spa/service-worker.js"
+  "main.js": "/keebacy/static/js/main.4772265f.chunk.js",
+  "main.js.map": "/keebacy/static/js/main.4772265f.chunk.js.map",
+  "static/js/1.55f2ec8c.chunk.js": "/keebacy/static/js/1.55f2ec8c.chunk.js",
+  "static/js/1.55f2ec8c.chunk.js.map": "/keebacy/static/js/1.55f2ec8c.chunk.js.map",
+  "runtime~main.js": "/keebacy/static/js/runtime~main.2d756657.js",
+  "runtime~main.js.map": "/keebacy/static/js/runtime~main.2d756657.js.map",
+  "index.html": "/keebacy/index.html",
+  "precache-manifest.69f25319b5cf6aa60de04d98468589c7.js": "/keebacy/precache-manifest.69f25319b5cf6aa60de04d98468589c7.js",
+  "service-worker.js": "/keebacy/service-worker.js"
 }
