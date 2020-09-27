@@ -1,4 +1,8 @@
 import * as React from 'react'
+import {
+    enable as enableDarkMode,
+    disable as disableDarkMode,
+} from 'darkreader'
 
 class Settings extends React.Component {
     render() {
@@ -49,6 +53,30 @@ class Settings extends React.Component {
                     <option value={7}>7</option>
                     <option value={8}>8</option>
                     <option value={9}>9</option>
+                </select>
+                <br />
+                <label
+                    for='lang'
+                    style={{ display: 'inline-block', width: 110 }}
+                >
+                    Theme:{' '}
+                </label>
+                <select
+                    name='theme'
+                    id='theme'
+                    style={{ display: 'inline-block', width: 80 }}
+                    onChange={e => {
+                        localStorage.setItem('theme', e.target.value)
+                        if (e.target.value === 'dark') {
+                            enableDarkMode()
+                        } else {
+                            disableDarkMode()
+                        }
+                    }}
+                    defaultValue={localStorage.getItem('theme')}
+                >
+                    <option value='light'>Light</option>
+                    <option value='dark'>Dark</option>
                 </select>
                 <br /> <br />
                 If you have any questions, suggestions or want to find out

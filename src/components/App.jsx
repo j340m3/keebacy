@@ -1,6 +1,10 @@
 import * as React from 'react'
 import keydown, { ALL_KEYS } from 'react-keydown'
 import { connect } from 'react-redux'
+import {
+    enable as enableDarkMode,
+    disable as disableDarkMode,
+} from 'darkreader'
 
 import Buttons from '../components/Buttons'
 import Settings from '../components/Settings'
@@ -8,6 +12,12 @@ import Stats from '../components/StatsBar'
 import Typing from '../components/Typing'
 import TextInfo from './TextInfo'
 import { MODE } from '../constants'
+
+if (localStorage.getItem('theme') === 'dark') {
+    enableDarkMode()
+} else {
+    disableDarkMode()
+}
 
 @keydown(ALL_KEYS)
 class App extends React.Component {
