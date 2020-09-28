@@ -68,7 +68,11 @@ class Settings extends React.Component {
                     onChange={e => {
                         localStorage.setItem('theme', e.target.value)
                         if (e.target.value === 'dark') {
-                            enableDarkMode()
+                            enableDarkMode({
+                                brightness: 70,
+                                contrast: 105,
+                                sepia: 15,
+                            })
                         } else {
                             disableDarkMode()
                         }

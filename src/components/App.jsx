@@ -14,7 +14,11 @@ import TextInfo from './TextInfo'
 import { MODE } from '../constants'
 
 if (localStorage.getItem('theme') === 'dark') {
-    enableDarkMode()
+    enableDarkMode({
+        brightness: 70,
+        contrast: 105,
+        sepia: 15,
+    })
 } else {
     disableDarkMode()
 }
