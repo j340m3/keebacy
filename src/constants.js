@@ -17,9 +17,11 @@ export const EXCLUSION_KEYWORDS = [
     'verschiedener Personen:',
     'folgender Orte:',
     'verschiedener Orte:',
+    'Objekte:',
     'Vorlage:Infobox',
     'refer to:',
     '(disambiguation)',
+    '(Begriffsklärung)',
 ]
 
 export const MODE = {

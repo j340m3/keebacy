@@ -36,7 +36,7 @@ const getRandomWikiArticle = async () => {
     if (
         EXCLUSION_KEYWORDS.some(
             e => wikiArticle.includes(e) || title.includes(e),
-        )
+        ) || !wikiArticle.includes(".")
     ) {
         return await getRandomWikiArticle()
     }
