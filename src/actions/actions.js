@@ -28,6 +28,8 @@ const getRandomWikiArticle = async () => {
         .replace('  ', ' ')
         .replace('–', '-')
         .replace('—', '-')
+        .replace('„', '"')
+        .replace('“', '"')
         .replace(/(?!\w)\.(?=\w)/g, '. ')
 
     // check if we have an acutal article or just a list of possible articles
@@ -54,10 +56,25 @@ export const newText = (mode, words) => {
             const wikiSentences = split(wikiArticle)
                 .map(x => (x.type === 'Sentence' ? x.raw : null))
                 .filter(Boolean)
+
+            const getSampleLength = () => {
+                switch (localStorage.getItem('sampleLength')) {
+                    case 'short':
+                        return 180
+                    case 'medium':
+                        return 450
+                    case 'long':
+                        return 1200
+                    default:
+                        return 18
+                }
+            }
+
             const combine = text =>
                 flatten(
                     chunk(2, text).map(x =>
-                        x.length === 2 && x[0].length + x[1].length < 180
+                        x.length === 2 &&
+                        x[0].length + x[1].length < getSampleLength()
                             ? [x[0] + ' ' + x[1]]
                             : x,
                     ),

@@ -31,6 +31,26 @@ class Settings extends React.Component {
                     for='lang'
                     style={{ display: 'inline-block', width: 110 }}
                 >
+                    Sample Length:{' '}
+                </label>
+                <select
+                    name='lang'
+                    id='lang'
+                    style={{ display: 'inline-block', width: 80 }}
+                    onChange={e =>
+                        localStorage.setItem('sampleLength', e.target.value)
+                    }
+                    defaultValue={localStorage.getItem('sampleLength')}
+                >
+                    <option value='short'>Short</option>
+                    <option value='medium'>Medium</option>
+                    <option value='long'>Long</option>
+                </select>
+                <br />
+                <label
+                    for='lang'
+                    style={{ display: 'inline-block', width: 110 }}
+                >
                     Max. Errors:{' '}
                 </label>
                 <select

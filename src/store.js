@@ -9,7 +9,7 @@ const composerEnhancer = composeWithDevTools({
     name: `Redux`,
     realtime: true,
     trace: true,
-    traceLimit: 25
+    traceLimit: 25,
 })
 
 export default createStore(

@@ -6,15 +6,28 @@ import { MODE, NUMBERS, NEW_TEXT, RANDOM_LENGTH, SYMBOLS } from '../constants'
 
 const chance = new Chance()
 
+const getSampleLength = () => {
+    switch (localStorage.getItem('sampleLength')) {
+        case 'short':
+            return 20
+        case 'medium':
+            return 50
+        case 'long':
+            return 150
+        default:
+            return 20
+    }
+}
+
 const splitter = text =>
     split(text)
         .map(x => (x.type === 'Sentence' ? x.raw : null))
         .filter(Boolean)
 
-const recombine = text =>
+const recombine = len => text =>
     flatten(
         chunk(2, text).map(x =>
-            x.length === 2 && x[0].length + x[1].length < 120
+            x.length === 2 && x[0].length + x[1].length < len
                 ? [x[0] + ' ' + x[1]]
                 : x,
         ),
@@ -23,7 +36,7 @@ const recombine = text =>
 export const newKafka = () => {
     const quotes = require('../static/books/kafka.json')
     const quote = splitter(quotes.join(' ').replace('  ', ' '))
-    const combinedQuotes = recombine(quote)
+    const combinedQuotes = recombine(120)(quote)
     return {
         author: 'Franz Kafka',
         context: 'Metamorphosis',
@@ -37,7 +50,31 @@ export const newQuote = () => {
     const quotes = require('../static/quotes/lang_' + lang + '.json')
 
     const { author, context, text } = _.sample(quotes)
-    const combinedQuotes = recombine(splitter(text))
+
+    if (localStorage.getItem('sampleLength') === 'long') {
+        return {
+            author,
+            context,
+            mode: MODE.QUOTE,
+            text: [text],
+        }
+    }
+
+    const getSampleLength = () => {
+        switch (localStorage.getItem('sampleLength')) {
+            case 'short':
+                return 120
+            case 'medium':
+                return 220
+            default:
+                return 120
+        }
+    }
+
+    const combinedQuotes = recombine(getSampleLength())(
+        recombine(getSampleLength())(splitter(text)),
+    )
+
     return {
         author,
         context,
@@ -62,8 +99,12 @@ export const newWords = () => {
             ),
         )
 
+    const sampleLength = getSampleLength()
     const uniqWordSample = [
-        _.take(_.uniq(_.times(30, getWeightedRandomWord)), 20).join(' '),
+        _.take(
+            _.uniq(_.times(sampleLength * 1.5, getWeightedRandomWord)),
+            sampleLength,
+        ).join(' '),
     ]
 
     return {
@@ -106,10 +147,25 @@ export const newCustom = words => {
     const shuffleIsSet = defaultTo('false', localStorage.getItem('shuffle'))
 
     if (shuffleIsSet === 'false') {
+        const getSentenceLength = () => {
+            switch (localStorage.getItem('sampleLength')) {
+                case 'short':
+                    return 120
+                case 'medium':
+                    return 450
+                case 'long':
+                    return 1200
+                default:
+                    return 120
+            }
+        }
+
         const chunkTextArray = pipe(
             splitter,
-            recombine,
-            map(x => chunk(60, x.split(' '))),
+            recombine(getSentenceLength()),
+            recombine(getSentenceLength()),
+            recombine(getSentenceLength()),
+            map(x => chunk(getSampleLength(), x.split(' '))),
             flatten,
             map(x => x.join(' ')),
         )(textArr.join(' '))
@@ -123,7 +179,7 @@ export const newCustom = words => {
     const text = pipe(
         map(i => i.split(' ')),
         flatten,
-        chunk(RANDOM_LENGTH),
+        chunk(getSampleLength()),
         map(shuffle),
         map(i => i.join(' ')),
     )(textArr)

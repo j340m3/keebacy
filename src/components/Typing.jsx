@@ -121,6 +121,9 @@ class Typing extends React.Component {
                 keydown.event.key === 'Tab' ||
                 keydown.event.key === 'Escape'
             ) {
+                if (keydown.event.key === ' ') {
+                    keydown.event.preventDefault()
+                }
                 // if a printable character was just typed
                 if (
                     errorPosition === undefined &&
