@@ -179,8 +179,8 @@ export const newCustom = words => {
     const text = pipe(
         map(i => i.split(' ')),
         flatten,
+        shuffle,
         chunk(getSampleLength()),
-        map(shuffle),
         map(i => i.join(' ')),
     )(textArr)
 
