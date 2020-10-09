@@ -143,7 +143,18 @@ export const newNumbers = () => {
 }
 
 export const newCustom = words => {
-    const textArr = Array.isArray(words) ? words : words.split(' ')
+
+    const formatInput = input => {
+        const wordArr = Array.isArray(input) ? input : input.split(' ')
+        const repeatIsSet = defaultTo('false', localStorage.getItem('repeat'))
+
+        if (wordArr.length < 300 && repeatIsSet === 'true') {
+            return wordArr.join(' ').repeat(10).split(' ')
+        }
+        return wordArr
+    }
+
+    const textArr = formatInput(words)
     const shuffleIsSet = defaultTo('false', localStorage.getItem('shuffle'))
 
     if (shuffleIsSet === 'false') {

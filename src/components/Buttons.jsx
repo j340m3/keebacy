@@ -17,6 +17,7 @@ class Buttons extends React.Component {
 
     handleSubmit = event => {
         localStorage.setItem('shuffle', this.refs.shuffle.checked)
+        localStorage.setItem('repeat', this.refs.repeat.checked)
         this.props.newText(MODE.CUSTOM, this.state.input.split(' '))
         this.props.changeTextPosition(0)
         this.setState({ showInput: false })
@@ -101,7 +102,20 @@ class Buttons extends React.Component {
                                 id='shuffle'
                                 name='shuffle'
                             />
-                            <label htmlFor='shuffle'> shuffle words</label>
+                            <label htmlFor='shuffle'> shuffle </label>
+                            <input
+                                type='checkbox'
+                                defaultChecked={
+                                    defaultTo(
+                                        'false',
+                                        localStorage.getItem('repeat'),
+                                    ) === 'true'
+                                }
+                                ref='repeat'
+                                id='repeat'
+                                name='repeat'
+                            />
+                            <label htmlFor='repeat'> repeat</label>
                         </form>
                     </div>
                 )}
