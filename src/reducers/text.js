@@ -149,7 +149,7 @@ export const newCustom = words => {
         const repeatIsSet = defaultTo('false', localStorage.getItem('repeat'))
 
         if (wordArr.length < 300 && repeatIsSet === 'true') {
-            return wordArr.join(' ').repeat(10).split(' ')
+            return (wordArr.join(' ') + " ").repeat(10).split(' ')
         }
         return wordArr
     }
@@ -193,6 +193,7 @@ export const newCustom = words => {
         shuffle,
         chunk(getSampleLength()),
         map(i => i.join(' ')),
+        map(i => i.replace(/ +(?= )/g,'')),
     )(textArr)
 
     return {
