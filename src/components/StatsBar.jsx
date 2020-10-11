@@ -56,7 +56,10 @@ class StatsBar extends React.Component {
             const { errorPercent } = this.props
 
             let histArray = this.state.history
-            histArray.push({ wpm: wpm, errors: 100 - errorPercent })
+
+            if (wpm !== 0) {
+                 histArray.push({ wpm: wpm, errors: 100 - errorPercent })
+            }
 
             this.setState({
                 chars: prevProps.chars,
