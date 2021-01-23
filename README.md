@@ -1,6 +1,6 @@
 # Keebacy
 
-[Link to website](https://madnight.github.io/keybacy/)
+[Link to website](https://madnight.github.io/keebacy/)
 
 A minimalist typing program inspired by [wpm](https://github.com/cjbassi/wpm-spa) and built for the browser using React and Redux.
 It includes different typing modes such as 'words', 'quote', 'wiki', and 'custom', and gives you typing stats based on the current text being typed.
